@@ -5,6 +5,12 @@ TextureImporter:
   - first:
       213: 936297362999179614
     second: buildings-tile-map_0
+  - first:
+      213: 4620670729455692856
+    second: buildings-tile-map_1
+  - first:
+      213: -1895269304268804734
+    second: buildings-tile-map_2
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -104,10 +110,10 @@ TextureImporter:
       name: buildings-tile-map_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1620
-        width: 261
-        height: 428
+        x: 28
+        y: 1742
+        width: 247
+        height: 306
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,6 +123,48 @@ TextureImporter:
       bones: []
       spriteID: e5973bdad756efc00800000000000000
       internalID: 936297362999179614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buildings-tile-map_1
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 1722
+        width: 316
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83c604d0c8bef1040800000000000000
+      internalID: 4620670729455692856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buildings-tile-map_2
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 1892
+        width: 131
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28d2b5dfb96a2b5e0800000000000000
+      internalID: -1895269304268804734
       vertices: []
       indices: 
       edges: []
