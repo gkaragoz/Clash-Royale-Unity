@@ -2,26 +2,17 @@
 /// \page changelog Changelog
 /// \order{-10}
 ///
-/// - 4.2.12 (2020-02-20)
-/// 	- Fixed "Not allowed to access vertices on mesh" error which some users are seeing after upgrading to Unity 2019.3.
-///
-/// - 4.2.11 (2019-11-28)
-/// 	- Fixed animations for the agent character were missing in the example scenes in some newer versions of Unity. This could cause exceptions to be thrown in some example scenes.
-/// 	- Removed some stray uses of the old and deprecated GUIText component. This could cause descriptions for some example scenes not to show up in newer versions of Unity.
-///
 /// - 4.2.10 (2019-11-19)
 /// 	- This release contains fixes and features that have been backported from the 4.3 beta.
 /// 	- Upgrade notes
-/// 		- This release is supported in Unity 2017.4 LTS and later. Support for earlier versions has been dropped (however it probably still works in all 2017.x releases).
+/// 		- This release is supported in Unity 2017.3 LTS and later. Support for earlier versions has been dropped (however it probably still works in all 2017.x releases).
 /// 		- The Unity WebPlayer target is no longer supported. This target was deprecated in Unity 5.4.
-/// 	- Known bugs
-/// 		- In some versions of Unity the spider bot in the example scenes may be missing its animations. This is due to a bug in how Unity upgrades scenes and is unfortunately tricky to fix for all Unity versions simultaneously. This does not affect any other part of the package.
 /// 	- Fixed a crash when scanning a graph on the WebGL platform and exception support is disabled.
 ///
 /// - 4.2.9 (2019-11-15)
 /// 	- This release contains fixes and features that have been backported from the 4.3 beta.
 /// 	- Upgrade notes
-/// 		- This release is supported in Unity 2017.4 LTS and later. Support for earlier versions has been dropped (however it probably still works in all 2017.x releases).
+/// 		- This release is supported in Unity 2017.3 LTS and later. Support for earlier versions has been dropped (however it probably still works in all 2017.x releases).
 /// 		- The Unity WebPlayer target is no longer supported. This target was deprecated in Unity 5.4.
 ///     - Added a visualization for which dimension of the hexagons that is being edited when using a hexagonal grid graph.
 ///         [Open online documentation to see images]
