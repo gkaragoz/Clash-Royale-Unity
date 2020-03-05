@@ -12,7 +12,8 @@ public class UIGridSnap : MonoBehaviour {
     [SerializeField]
     private Transform _gridSnapIndicator = null;
 
-    private Camera _cam; 
+    private Camera _cam;
+   
 
     private void Start() {
         _cam = Camera.main;
@@ -24,6 +25,16 @@ public class UIGridSnap : MonoBehaviour {
         Vector3 mouseWorldPosition = _cam.ScreenToWorldPoint(Input.mousePosition);
         Vector3 gridLogicPosition = new Vector3(mouseWorldPosition.x / 0.585f, mouseWorldPosition.y / 0.5f, 0f);
         _gridSnapIndicator.position = grid.GetCellCenterWorld(Vector3Int.FloorToInt(gridLogicPosition));
+       
     }
+
+    public Vector2 getGridPosition
+    {
+        get { return _gridSnapIndicator.position; }
+       
+    }
+
+
+
 
 }
