@@ -13,11 +13,17 @@ public class UIGridSnap : MonoBehaviour {
     private Transform _gridSnapIndicator = null;
 
     private Camera _cam;
-   
 
-    private void Start() {
+    public Vector2 GetIndicatorPosition { 
+        get {
+            return _gridSnapIndicator.position;       
+        }
+    }
+
+    private void Awake() {
         _cam = Camera.main;
     }
+
     private void OnDrawGizmos() {
         if (grid == null || _gridSnapIndicator == null || _cam == null)
             return;
@@ -25,16 +31,5 @@ public class UIGridSnap : MonoBehaviour {
         Vector3 mouseWorldPosition = _cam.ScreenToWorldPoint(Input.mousePosition);
         Vector3 gridLogicPosition = new Vector3(mouseWorldPosition.x / 0.585f, mouseWorldPosition.y / 0.5f, 0f);
         _gridSnapIndicator.position = grid.GetCellCenterWorld(Vector3Int.FloorToInt(gridLogicPosition));
-       
     }
-
-    public Vector2 getGridPosition
-    {
-        get { return _gridSnapIndicator.position; }
-       
-    }
-
-
-
-
 }
