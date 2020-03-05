@@ -35,76 +35,47 @@ public class UIGridSnap : MonoBehaviour {
     private void OnDrawGizmos() {
         if (_hit2D != false) {
             Gizmos.color = Color.red;
-            Vector2 centerPoint = new Vector2(_hit2D.transform.position.x, _hit2D.transform.position.y);
+            Vector2 centerPoint = _hit2D.collider.bounds.min;
             Vector2 hitPoint = _hit2D.point;
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(hitPoint, 0.1f);
 
             Vector2 direction = hitPoint - centerPoint;
             Gizmos.color = Color.cyan;
             Gizmos.DrawRay(centerPoint, direction);
 
-            float angle = AnimationExtensions.GetAngleFromVector2(direction);
-            if (angle > 45) {
-                angle = 90 - angle;
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(hitPoint, 0.1f);
+
+            Vector2 differenceVector = hitPoint - centerPoint;
+            Vector2 finalPosition = Vector2.zero;
+            if (Vector2.Distance(hitPoint, _hit2D.collider.bounds.min) < Vector2.Distance(hitPoint, _hit2D.collider.bounds.max)) {
+                // Bottom Left
+                if (differenceVector.x < differenceVector.y) {
+                    // Choose X
+                    finalPosition = new Vector2(_hit2D.collider.bounds.min.x - grid.cellSize.x / 2, hitPoint.y);
+                } else {
+                    // Choose Y
+                    finalPosition = new Vector2(hitPoint.x, _hit2D.collider.bounds.min.y - grid.cellSize.y / 2);
+                }
             } else {
-                Gizmos.color = Color.red;
-                Vector2 rotatedDirection = rotate(direction, angle);
-                Gizmos.DrawRay(rotatedDirection, direction);
+                // Upper Right
+                if (differenceVector.x > differenceVector.y) {
+                    // Choose Y
+                    finalPosition = new Vector2(_hit2D.collider.bounds.max.x + grid.cellSize.x / 2, hitPoint.y);
+                } else {
+                    // Choose X
+                    finalPosition = new Vector2(hitPoint.x, _hit2D.collider.bounds.max.y + grid.cellSize.y / 2);
+                }
             }
+
+            Gizmos.DrawSphere(finalPosition, 0.1f);
+            _gridSnapIndicator.position = grid.GetCellCenterWorld(Vector3Int.FloorToInt(new Vector2(finalPosition.x / grid.cellSize.x, finalPosition.y / grid.cellSize.y)));
+        } else {
+            if (grid == null || _gridSnapIndicator == null || _cam == null)
+                return;
+
+            Vector3 mouseWorldPosition = _cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 gridLogicPosition = new Vector3(mouseWorldPosition.x / grid.cellSize.x, mouseWorldPosition.y / grid.cellSize.y, 0f);
+            _gridSnapIndicator.position = grid.GetCellCenterWorld(Vector3Int.FloorToInt(gridLogicPosition));
         }
-
-        //if (_hit2D != false) {
-        //    Gizmos.color = Color.red;
-        //    Vector2 centerPoint = new Vector2(_hit2D.transform.position.x, _hit2D.transform.position.y);
-        //    Vector2 hitPoint = _hit2D.point;
-
-        //    Gizmos.color = Color.blue;
-        //    Gizmos.DrawSphere(hitPoint, 0.1f);
-
-        //    Vector2 direction = hitPoint - centerPoint;
-        //    Gizmos.color = Color.cyan;
-        //    Gizmos.DrawRay(centerPoint, direction);
-
-        //    Vector2 upperRight = _hit2D.collider.bounds.max;
-        //    Vector2 lowerLeft = _hit2D.collider.bounds.min;
-        //    Vector2 upperLeft = upperRight - (Vector2.right * _hit2D.collider.bounds.size.x);
-        //    Vector2 lowerRight = upperRight - (Vector2.up * _hit2D.collider.bounds.size.y);
-
-        //    // Area I   : +, +
-        //    // Area II  : -, +
-        //    // Area III : -, -
-        //    // Area IV  : +, -
-        //    Vector2 indicatorPosition = hitPoint;
-        //    if (direction.x > 0 && direction.y > 0) {
-        //        // Upper Right
-        //        Vector2 comparisonVector = upperRight - hitPoint;
-
-        //        if (comparisonVector.x < comparisonVector.y) {
-        //            indicatorPosition = new Vector2(hitPoint.x + comparisonVector.x, hitPoint.y);
-        //        } else {
-        //            indicatorPosition = new Vector2(hitPoint.x, hitPoint.y + comparisonVector.y);
-        //        }
-        //    } else if (direction.x < 0 && direction.y > 0) {
-        //        // Upper Left
-        //    } else if (direction.x < 0 && direction.y < 0) {
-        //        // Lower Left
-        //    } else if (direction.x > 0 && direction.y < 0) {
-        //        // Lower Right
-        //    }
-
-        //    Gizmos.DrawSphere(indicatorPosition, 0.2f);
-        //}
-
-
-        ///////////////////////////////////////////////////////////
-        //if (grid == null || _gridSnapIndicator == null || _cam == null)
-        //    return;
-
-
-        //Vector3 mouseWorldPosition = _cam.ScreenToWorldPoint(Input.mousePosition);
-        //Vector3 gridLogicPosition = new Vector3(mouseWorldPosition.x / grid.cellSize.x, mouseWorldPosition.y / grid.cellSize.y, 0f);
-        //_gridSnapIndicator.position = grid.GetCellCenterWorld(Vector3Int.FloorToInt(gridLogicPosition));
     }
 }
