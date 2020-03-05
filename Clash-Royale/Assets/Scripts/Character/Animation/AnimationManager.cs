@@ -3,61 +3,43 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour {
 
-    [Header("Initializations")]
-    public Seeker seeker;
-    public Transform target;
-
     [Header("Debug")]
     [SerializeField]
     [Utils.ReadOnly]
-    private int _currentWayPoint;
+    private float _characterAngle;
     [SerializeField]
     [Utils.ReadOnly]
-    private Path _currentPath;
+    private AIPath _AIPath = null;
     [SerializeField]
     [Utils.ReadOnly]
     private Animator _anim;
 
-    public bool HasPath { 
-        get {
-            return _currentPath == null ? false : true;
-        }
-    }
-
-    public bool HasPathCompleted {
-        get {
-            return HasPath && _currentWayPoint >= _currentPath.vectorPath.Count;
-        }
-    }
+    private InputVector _directionVector;
 
     private void Awake() {
-        seeker = GetComponent<Seeker>();
-        _anim = GetComponent<Animator>();
+        _AIPath = GetComponent<AIPath>();
+        _anim = GetComponentInChildren<Animator>();
     }
 
-    private void Start() {
-        seeker.StartPath(transform.position, target.position, OnPathCompleted);
-    }
-
-    private void FixedUpdate() {
-        if (HasPath && HasPathCompleted) {
+    private void Update() {
+        if (_AIPath == null)
             return;
-        }
 
-        Vector3 normalizedDesiredVelocity = (transform.position - _currentPath.vectorPath[_currentWayPoint]).normalized;
-        
-        //Report the path using the delegate
-        _anim.SetFloat("InputX", normalizedDesiredVelocity.x);
-        _anim.SetFloat("InputY", normalizedDesiredVelocity.y);
+        SetInputParams();
     }
 
-    private void OnPathCompleted(Path path) {
-        if (!path.error) {
-            _currentPath = path;
-            _currentWayPoint = 0;
+    private void SetInputParams() {
+        // Vector2.Angle gives a float value between 0-180. Needed negative y area.
+        if (_AIPath.desiredVelocity.y < 0) {
+            _characterAngle = 360 - AnimationExtensions.GetAngleFromVector2(_AIPath.desiredVelocity);
         } else {
-            Debug.Log(path.error);
+            _characterAngle = AnimationExtensions.GetAngleFromVector2(_AIPath.desiredVelocity);
         }
+
+        _directionVector = _characterAngle.GetDirectionVector();
+
+        _anim.SetFloat("InputX", _directionVector.x);
+        _anim.SetFloat("InputY", _directionVector.y);
     }
 
 }
