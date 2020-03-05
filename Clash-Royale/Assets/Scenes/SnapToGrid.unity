@@ -12637,6 +12637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefb9a96be41e82479c1ccec5dea6c0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: 2
   grid: {fileID: 2142994364}
   _gridSnapIndicator: {fileID: 1111913401}
 --- !u!4 &1714469903
@@ -13097,12 +13098,12 @@ PrefabInstance:
     - target: {fileID: 3207428038249965466, guid: 03797bec831e6d74fa8cf362d4f22e98,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 33.637497
+      value: 44.1675
       objectReference: {fileID: 0}
     - target: {fileID: 3207428038249965466, guid: 03797bec831e6d74fa8cf362d4f22e98,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 23.25
+      value: 17.75
       objectReference: {fileID: 0}
     - target: {fileID: 3207428038249965466, guid: 03797bec831e6d74fa8cf362d4f22e98,
         type: 3}
