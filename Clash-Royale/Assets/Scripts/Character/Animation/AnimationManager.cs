@@ -1,59 +1,62 @@
-﻿
-using Pathfinding;
+﻿using Pathfinding;
 using UnityEngine;
 
-public class AnimationManager : MonoBehaviour
-{
+public class AnimationManager : MonoBehaviour {
+
+    [Header("Initializations")]
     public Seeker seeker;
     public Transform target;
 
-    int currentWayPoint;
-    Pathfinding.Path path;
+    [Header("Debug")]
+    [SerializeField]
+    [Utils.ReadOnly]
+    private int _currentWayPoint;
+    [SerializeField]
+    [Utils.ReadOnly]
+    private Path _currentPath;
+    [SerializeField]
+    [Utils.ReadOnly]
+    private Animator _anim;
 
-    Animator anim;
-    private void Awake()
-    {
+    public bool HasPath { 
+        get {
+            return _currentPath == null ? false : true;
+        }
+    }
+
+    public bool HasPathCompleted {
+        get {
+            return HasPath && _currentWayPoint >= _currentPath.vectorPath.Count;
+        }
+    }
+
+    private void Awake() {
         seeker = GetComponent<Seeker>();
-        anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
     }
 
-    private void Start()
-    {
-        seeker.StartPath(transform.position, target.position, onPathCompleted);
-
-    }
-    private void Update()
-    {
-    
+    private void Start() {
+        seeker.StartPath(transform.position, target.position, OnPathCompleted);
     }
 
-    private void FixedUpdate()
-    {
-        if (path == null)
-        {
+    private void FixedUpdate() {
+        if (HasPath && HasPathCompleted) {
             return;
         }
-        if (currentWayPoint >= path.vectorPath.Count)
-        {
-            return;
-        }
-        Vector3 dir = ( transform.position- path.vectorPath[currentWayPoint] ).normalized;
+
+        Vector3 normalizedDesiredVelocity = (transform.position - _currentPath.vectorPath[_currentWayPoint]).normalized;
+        
         //Report the path using the delegate
-        anim.SetFloat("InputX",dir.x);
-
-
-        anim.SetFloat("InputY",dir.y);
+        _anim.SetFloat("InputX", normalizedDesiredVelocity.x);
+        _anim.SetFloat("InputY", normalizedDesiredVelocity.y);
     }
-    void onPathCompleted(Pathfinding.Path p)
-    {
-        if (!p.error)
-        {
-            path = p;
-            currentWayPoint = 0;
-        }
-        else
-        {
-            Debug.Log(p.error);
+
+    private void OnPathCompleted(Path path) {
+        if (!path.error) {
+            _currentPath = path;
+            _currentWayPoint = 0;
+        } else {
+            Debug.Log(path.error);
         }
     }
 

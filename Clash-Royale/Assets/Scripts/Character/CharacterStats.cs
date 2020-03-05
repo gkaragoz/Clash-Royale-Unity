@@ -122,9 +122,8 @@ public class CharacterStats : MonoBehaviour {
     public float GetMovementSpeed() {
         return _character.MovementSpeed;
     }
-    public float GetWaitTimeBeforeMove()
-    {
-        return _character.WaitTimeBeforeMove;
+    public float GetInitDelay() {
+        return _character.InitDelay;
     }
 
     #endregion

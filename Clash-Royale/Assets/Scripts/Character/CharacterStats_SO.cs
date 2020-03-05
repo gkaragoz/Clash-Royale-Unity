@@ -34,9 +34,7 @@ public class CharacterStats_SO : ScriptableObject {
 
     // Wait Time Before Moving
     [SerializeField]
-    private float _waitTimeBeforeMove = 1f;
-
-
+    private float _initDelay = 1f;
          
     public string Name {
         get { return _name; }
@@ -76,10 +74,9 @@ public class CharacterStats_SO : ScriptableObject {
         get { return _minAttackDamage; }
     }
 
-    public float WaitTimeBeforeMove
-    {
-        get { return _waitTimeBeforeMove; }
-        set { _waitTimeBeforeMove = value; }
+    public float InitDelay {
+        get { return _initDelay; }
+        set { _initDelay = value; }
     }
 
     public float MovementSpeed {
