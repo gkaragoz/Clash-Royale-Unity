@@ -281,6 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 253400140}
   - component: {fileID: 253400139}
+  - component: {fileID: 253400141}
   m_Layer: 0
   m_Name: __UIGridSnap
   m_TagString: Untagged
@@ -303,8 +304,8 @@ MonoBehaviour:
   offset: 1
   grid: {fileID: 2142994364}
   _gridSnapIndicator: {fileID: 1760425048}
-  _maxInputHeightLeft: 0
-  _maxInputHeightRight: 0
+  _maxInputHeightLeft: 12.5
+  _maxInputHeightRight: 12.5
 --- !u!4 &253400140
 Transform:
   m_ObjectHideFlags: 0
@@ -319,6 +320,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &253400141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253400138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9297e4afeb2e9d43b1469a7013b567d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _territoryColor: {r: 0.7176471, g: 0.2509804, b: 0.050980397, a: 0.60784316}
+  _leftTerritory:
+    position: {x: 10, y: 10}
+    size: {x: 530, y: 780}
+  _rightTerritory:
+    position: {x: 1070, y: 10}
+    size: {x: -530, y: 780}
 --- !u!1 &285183491
 GameObject:
   m_ObjectHideFlags: 0
