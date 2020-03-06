@@ -45,8 +45,57 @@ public class UIGridSnap : MonoBehaviour {
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(hitPoint, 0.1f);
 
-            Vector2 differenceVector = hitPoint - centerPoint;
+           
+            Vector2 rightUp = _hit2D.collider.bounds.max;
+            Vector2 rightDown = new Vector2(_hit2D.collider.bounds.max.x, _hit2D.collider.bounds.min.y);
+            Vector2 leftUp = new Vector2(_hit2D.collider.bounds.min.x,_hit2D.collider.bounds.max.y); 
+            Vector2 leftDown = _hit2D.collider.bounds.min;
+            Vector2[] pointsArray = new Vector2[] { rightUp, rightDown, leftDown, leftUp };
             Vector2 finalPosition = Vector2.zero;
+            Vector2 closestPoint = pointsArray[0];
+            Vector2 differenceVector = Vector2.zero;
+            // Find the closest point to hitPoint
+            for (int i = 0; i < pointsArray.Length; i++)
+            {
+                if (Vector2.Distance(hitPoint,pointsArray[i])<= Vector2.Distance(hitPoint, closestPoint))
+                {
+                    closestPoint = pointsArray[i];
+                    differenceVector = closestPoint - hitPoint;
+                }
+            }
+            if (Mathf.Abs(differenceVector.x) < (Mathf.Abs(differenceVector.y)))
+            {
+                if (differenceVector.x<0)
+                {
+                    // Choose X
+                    finalPosition = new Vector2(closestPoint.x - grid.cellSize.x / 2 , hitPoint.y);
+                }
+                else
+                {
+                    // Choose X
+                    finalPosition = new Vector2(closestPoint.x + grid.cellSize.x / 2 , hitPoint.y);
+                }
+
+               
+            }
+            else
+            {
+                if (differenceVector.y < 0)
+                {
+                    // Choose Y
+                    finalPosition = new Vector2(hitPoint.x, closestPoint.y - grid.cellSize.y / 2);
+                }
+                else
+                {
+                    // Choose Y
+                    finalPosition = new Vector2(hitPoint.x, closestPoint.y + grid.cellSize.y / 2);
+                }
+                
+            }
+
+
+            /*
+
             if (Vector2.Distance(hitPoint, _hit2D.collider.bounds.min) < Vector2.Distance(hitPoint, _hit2D.collider.bounds.max)) {
                 // Bottom Left
                 if (differenceVector.x < differenceVector.y) {
@@ -65,9 +114,10 @@ public class UIGridSnap : MonoBehaviour {
                     // Choose X
                     finalPosition = new Vector2(hitPoint.x, _hit2D.collider.bounds.max.y + grid.cellSize.y / 2);
                 }
-            }
+            }*/
 
             Gizmos.DrawSphere(finalPosition, 0.1f);
+            Gizmos.DrawSphere(closestPoint, 0.1f);
             _gridSnapIndicator.position = grid.GetCellCenterWorld(Vector3Int.FloorToInt(new Vector2(finalPosition.x / grid.cellSize.x, finalPosition.y / grid.cellSize.y)));
         } else {
             if (grid == null || _gridSnapIndicator == null || _cam == null)
