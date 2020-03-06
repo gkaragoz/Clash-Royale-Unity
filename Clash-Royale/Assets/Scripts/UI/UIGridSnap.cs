@@ -13,9 +13,23 @@ public class UIGridSnap : MonoBehaviour {
     private float _maxInputHeightLeft;
     [SerializeField]
     private float _maxInputHeightRight;
+    [SerializeField]
+    private bool _cardReleaseMode = false;
 
     private Camera _cam;
     private RaycastHit2D _hit2D;
+
+    public bool CardReleaseMode { 
+        get {
+            return _cardReleaseMode;
+        } 
+        set {
+            _cardReleaseMode = value;
+            if (!_cardReleaseMode) {
+                _gridSnapIndicator.position = Vector3.zero;
+            }
+        } 
+    }
 
     public Vector2 GetIndicatorPosition {
         get {
@@ -37,6 +51,10 @@ public class UIGridSnap : MonoBehaviour {
         Gizmos.color = Color.white;
 
         Gizmos.DrawLine(new Vector3(6.5f, _maxInputHeightRight, 0), new Vector3(13f, _maxInputHeightRight, 0));
+
+        if (!CardReleaseMode) {
+            return;
+        }
 
         if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x >= 6.5f) {
 

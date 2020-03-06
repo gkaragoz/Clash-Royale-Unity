@@ -188,7 +188,7 @@ Transform:
   - {fileID: 1802080652}
   - {fileID: 1454105080}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &70531765
 PrefabInstance:
@@ -304,6 +304,7 @@ MonoBehaviour:
   _gridSnapIndicator: {fileID: 1760425048}
   _maxInputHeightLeft: 13.5
   _maxInputHeightRight: 13.5
+  _cardReleaseMode: 0
 --- !u!4 &253400140
 Transform:
   m_ObjectHideFlags: 0
@@ -330,13 +331,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9297e4afeb2e9d43b1469a7013b567d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _UIGridSnap: {fileID: 253400139}
   _territoryColor: {r: 0.7176471, g: 0.2509804, b: 0.050980397, a: 0.60784316}
   _leftTerritory:
     position: {x: 10, y: 10}
     size: {x: 530, y: 780}
+    onDestroyedY: 595
   _rightTerritory:
     position: {x: 1070, y: 10}
     size: {x: -530, y: 780}
+    onDestroyedY: 595
 --- !u!1 &259795967
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,8 +370,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 827461529}
-  - {fileID: 747188412}
   - {fileID: 1677297892}
+  - {fileID: 747188412}
   m_Father: {fileID: 647697872}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -637,7 +641,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &647697868
 GameObject:
@@ -731,7 +735,7 @@ RectTransform:
   m_Children:
   - {fileID: 259795968}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -750,6 +754,7 @@ GameObject:
   - component: {fileID: 747188415}
   - component: {fileID: 747188414}
   - component: {fileID: 747188413}
+  - component: {fileID: 747188416}
   m_Layer: 5
   m_Name: btnCardDestroyRightTower
   m_TagString: Untagged
@@ -769,7 +774,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 259795968}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -837,7 +842,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3f40a804c5964c54e992ff36329f7085, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2680efe462396b54999f3ebeb5a0391b, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -855,6 +860,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747188411}
   m_CullTransparentMesh: 0
+--- !u!114 &747188416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747188411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea64c78bbb3a16449c0fc15d477ea68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardType: 2
+  cardAnimType: 1
+  onClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 830379934}
+        m_MethodName: UseCard
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 747188416}
+          m_ObjectArgumentAssemblyTypeName: TempCardHolder, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _thisButton: {fileID: 0}
 --- !u!1 &827461528
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +901,7 @@ GameObject:
   - component: {fileID: 827461532}
   - component: {fileID: 827461531}
   - component: {fileID: 827461530}
+  - component: {fileID: 827461533}
   m_Layer: 5
   m_Name: btnCardPoseidon
   m_TagString: Untagged
@@ -972,6 +1007,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827461528}
   m_CullTransparentMesh: 0
+--- !u!114 &827461533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827461528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea64c78bbb3a16449c0fc15d477ea68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardType: 0
+  cardAnimType: 0
+  onClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 830379934}
+        m_MethodName: UseCard
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 827461533}
+          m_ObjectArgumentAssemblyTypeName: TempCardHolder, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _thisButton: {fileID: 0}
+--- !u!1 &830379933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 830379935}
+  - component: {fileID: 830379934}
+  m_Layer: 0
+  m_Name: __TempCardController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &830379934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830379933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 325886d90fee1b14386964a97e2f9541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIGridSnap: {fileID: 253400139}
+  _UITerritoryDraw: {fileID: 253400141}
+  _selectedCardHolder: {fileID: 0}
+--- !u!4 &830379935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830379933}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &972625563
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,7 +1146,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &979020141
 GameObject:
@@ -1821,7 +1931,7 @@ Transform:
   - {fileID: 2004624242}
   - {fileID: 7440774600129627296}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1400980324
 PrefabInstance:
@@ -13709,6 +13819,7 @@ GameObject:
   - component: {fileID: 1677297895}
   - component: {fileID: 1677297894}
   - component: {fileID: 1677297893}
+  - component: {fileID: 1677297896}
   m_Layer: 5
   m_Name: btnCardDestroyLeftTower
   m_TagString: Untagged
@@ -13728,7 +13839,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 259795968}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -13796,7 +13907,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3f40a804c5964c54e992ff36329f7085, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 342485a4b76b6224c86a2ee22f8e840a, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -13814,6 +13925,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677297891}
   m_CullTransparentMesh: 0
+--- !u!114 &1677297896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677297891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea64c78bbb3a16449c0fc15d477ea68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardType: 1
+  cardAnimType: 1
+  onClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 830379934}
+        m_MethodName: UseCard
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1677297896}
+          m_ObjectArgumentAssemblyTypeName: TempCardHolder, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _thisButton: {fileID: 0}
 --- !u!1001 &1701076800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13944,7 +14084,7 @@ PrefabInstance:
     - target: {fileID: 3207428038249965466, guid: 03797bec831e6d74fa8cf362d4f22e98,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3207428038249965466, guid: 03797bec831e6d74fa8cf362d4f22e98,
         type: 3}
@@ -14491,7 +14631,7 @@ PrefabInstance:
     - target: {fileID: 3565960682030497764, guid: 92ff169871486e84b9a040abe9429b13,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3565960682030497764, guid: 92ff169871486e84b9a040abe9429b13,
         type: 3}
