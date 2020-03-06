@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Poseidon_Animation_Controller_Override
+  m_Controller: {fileID: 9100000, guid: 3221e5a6b0fb42f48a4c24c01a3e232d, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: ef12da8a491069046a12e6e80a57d77e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c8650ef42499f1745855bd91c5c01248, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ef2dfbb839540b940a6be57b130b8b53, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7dff558adfc0433479b1217b37436387, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 33ae2302bd712fc4fac1cfd0993c0eb3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ba70d92afeefe884e8d2c79f7afa0f3d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 83c2a4f8695e71c42b0dc42b7d2b1fd0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 0b3e75ac2546cee4fa46c225c597b972, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 336c427226e3f764e828f7459b5c9217, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 92b3dbfa9a9d5084982f458f86acf1d4, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0f8c41c8f82b4a643ba735095cb86bc4, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8239f92014fb0db44b8da300a74e6f97, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 884290c042285bb47bff61bcf28814dc, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a88bda697a9a172468a568919df21683, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e3d5281ef55a30e4abc5e2feb9ec8b17, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 405cd75c954718d40942dabdec1338ad, type: 2}
