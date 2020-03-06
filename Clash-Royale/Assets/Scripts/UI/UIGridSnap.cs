@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Pathfinding;
+using UnityEngine;
 
 public class UIGridSnap : MonoBehaviour {
 
@@ -7,6 +8,10 @@ public class UIGridSnap : MonoBehaviour {
     public Grid grid = null;
     [SerializeField]
     private Transform _gridSnapIndicator = null;
+    [SerializeField]
+    private AIDestinationSetter _cardPrefab = null;
+    [SerializeField]
+    private Transform _targetTransform = null;
 
     [Header("Debug")]
     [SerializeField]
@@ -42,7 +47,18 @@ public class UIGridSnap : MonoBehaviour {
     }
 
     private void Update() {
-        _hit2D = Physics2D.Raycast(_cam.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        Vector2 mouseWorldPosition = _cam.ScreenToWorldPoint(Input.mousePosition);
+        _hit2D = Physics2D.Raycast(mouseWorldPosition, Vector2.zero);
+
+        if (Input.GetMouseButtonDown(0) && CardReleaseMode) {
+            Instantiate(_cardPrefab, _gridSnapIndicator.position, Quaternion.identity).target = _targetTransform;
+        }
+
+        if (Input.GetMouseButtonDown(0) && !Utils.IsPointerOverUIObject()) {
+            if (!CardReleaseMode) {
+                _targetTransform.position = mouseWorldPosition;
+            }
+        }
     }
     
     private void OnDrawGizmos() {
