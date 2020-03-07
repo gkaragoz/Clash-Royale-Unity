@@ -1,4 +1,5 @@
 ﻿using Pathfinding;
+using System.Linq;
 using UnityEngine;
 
 public class UIGridSnap : MonoBehaviour {
@@ -47,6 +48,7 @@ public class UIGridSnap : MonoBehaviour {
     }
 
     private void Update() {
+#if UNITY_EDITOR
         Vector2 mouseWorldPosition = _cam.ScreenToWorldPoint(Input.mousePosition);
         _hit2D = Physics2D.Raycast(mouseWorldPosition, Vector2.zero);
 
@@ -54,13 +56,27 @@ public class UIGridSnap : MonoBehaviour {
             Instantiate(_cardPrefab, _gridSnapIndicator.position, Quaternion.identity).target = _targetTransform;
         }
 
-        if (Input.GetMouseButtonDown(0) && !Utils.IsPointerOverUIObject()) {
+        if (Input.GetMouseButton(0) && !Utils.IsPointerOverUIObject()) {
             if (!CardReleaseMode) {
                 _targetTransform.position = mouseWorldPosition;
             }
         }
+#elif UNITY_ANDROID
+        Vector2 touchWorldPosition = _cam.ScreenToWorldPoint(Input.GetTouch(0).position);
+        _hit2D = Physics2D.Raycast(touchWorldPosition, Vector2.zero);
+
+        if (Input.touches.Any(x => x.phase == TouchPhase.Began) && CardReleaseMode) {
+            Instantiate(_cardPrefab, _gridSnapIndicator.position, Quaternion.identity).target = _targetTransform;
+        }
+
+        if (Input.touches.Any(x => x.phase == TouchPhase.Moved) && !Utils.IsPointerOverUIObject()) {
+            if (!CardReleaseMode) {
+                _targetTransform.position = touchWorldPosition;
+            }
+        }
+#endif
     }
-    
+
     private void OnDrawGizmos() {
         Gizmos.color = Color.black;
         Gizmos.DrawLine(new Vector3(0, _maxInputHeightLeft, 0), new Vector3(6.5f, _maxInputHeightLeft, 0));
