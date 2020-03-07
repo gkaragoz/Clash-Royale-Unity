@@ -29,17 +29,22 @@ public class AnimationManager : MonoBehaviour {
     }
 
     private void SetInputParams() {
-        // Vector2.Angle gives a float value between 0-180. Needed negative y area.
-        if (_AIPath.desiredVelocity.y < 0) {
-            _characterAngle = 360 - AnimationExtensions.GetAngleFromVector2(_AIPath.desiredVelocity);
-        } else {
-            _characterAngle = AnimationExtensions.GetAngleFromVector2(_AIPath.desiredVelocity);
+        if (!_AIPath.reachedDestination) {
+            // Vector2.Angle gives a float value between 0-180. Needed negative y area.
+            if (_AIPath.desiredVelocity.y < 0) {
+                _characterAngle = 360 - AnimationExtensions.GetAngleFromVector2(_AIPath.desiredVelocity);
+            } else {
+                _characterAngle = AnimationExtensions.GetAngleFromVector2(_AIPath.desiredVelocity);
+            }
+
+            _directionVector = _characterAngle.GetDirectionVector();
+
+            _anim.SetFloat("InputX", _directionVector.x);
+            _anim.SetFloat("InputY", _directionVector.y);
         }
 
-        _directionVector = _characterAngle.GetDirectionVector();
-
-        _anim.SetFloat("InputX", _directionVector.x);
-        _anim.SetFloat("InputY", _directionVector.y);
+        // Is Running or Idle.
+        _anim.SetBool("IsRunning", !_AIPath.reachedDestination);
     }
 
 }
