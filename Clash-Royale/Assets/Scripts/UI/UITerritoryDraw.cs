@@ -4,8 +4,6 @@ public class UITerritoryDraw : MonoBehaviour {
 
     [Header("Initializations")]
     [SerializeField]
-    private UIGridSnap _UIGridSnap = null;
-    [SerializeField]
     private Color _territoryColor = Color.red;
     [Header("Left Territory Settings")]
     [SerializeField]
@@ -13,12 +11,6 @@ public class UITerritoryDraw : MonoBehaviour {
     [Header("Right Territory Settings")]
     [SerializeField]
     private TerritoryDraw _rightTerritory = null;
-
-    public bool IsDrawing { 
-        get {
-            return _UIGridSnap.CardReleaseMode;
-        }
-    }
 
     public void DestroyTerritory(int index) {
         switch (index) {
@@ -32,10 +24,8 @@ public class UITerritoryDraw : MonoBehaviour {
     }
 
     private void OnGUI() {
-        if (IsDrawing) {
-            DrawRect.DrawRectangle(new Rect(_leftTerritory.position.x, _leftTerritory.position.y, _leftTerritory.size.x, _leftTerritory.size.y), _territoryColor);
-            DrawRect.DrawRectangle(new Rect(_rightTerritory.position.x, _rightTerritory.position.y, _rightTerritory.size.x, _rightTerritory.size.y), _territoryColor);
-        }
+        DrawRect.DrawRectangle(new Rect(_leftTerritory.position.x, _leftTerritory.position.y, _leftTerritory.size.x, _leftTerritory.size.y), _territoryColor);
+        DrawRect.DrawRectangle(new Rect(_rightTerritory.position.x, _rightTerritory.position.y, _rightTerritory.size.x, _rightTerritory.size.y), _territoryColor);
     }
 
 }

@@ -9,33 +9,15 @@ public class UIGridSnap : MonoBehaviour {
     public Grid grid = null;
     [SerializeField]
     private Transform _gridSnapIndicator = null;
-    [SerializeField]
-    private AIDestinationSetter _cardPrefab = null;
-    [SerializeField]
-    private Transform _targetTransform = null;
 
     [Header("Debug")]
     [SerializeField]
     private float _maxInputHeightLeft;
     [SerializeField]
     private float _maxInputHeightRight;
-    [SerializeField]
-    private bool _cardReleaseMode = false;
 
     private Camera _cam;
     private RaycastHit2D _hit2D;
-
-    public bool CardReleaseMode { 
-        get {
-            return _cardReleaseMode;
-        } 
-        set {
-            _cardReleaseMode = value;
-            if (!_cardReleaseMode) {
-                _gridSnapIndicator.position = Vector3.zero;
-            }
-        } 
-    }
 
     public Vector2 GetIndicatorPosition {
         get {
@@ -48,33 +30,8 @@ public class UIGridSnap : MonoBehaviour {
     }
 
     private void Update() {
-#if UNITY_EDITOR
-        Vector2 mouseWorldPosition = _cam.ScreenToWorldPoint(Input.mousePosition);
-        _hit2D = Physics2D.Raycast(mouseWorldPosition, Vector2.zero);
-
-        if (Input.GetMouseButtonDown(0) && CardReleaseMode) {
-            Instantiate(_cardPrefab, _gridSnapIndicator.position, Quaternion.identity).target = _targetTransform;
-        }
-
-        if (Input.GetMouseButton(0) && !Utils.IsPointerOverUIObject()) {
-            if (!CardReleaseMode) {
-                _targetTransform.position = mouseWorldPosition;
-            }
-        }
-#elif UNITY_ANDROID
-        Vector2 touchWorldPosition = _cam.ScreenToWorldPoint(Input.GetTouch(0).position);
-        _hit2D = Physics2D.Raycast(touchWorldPosition, Vector2.zero);
-
-        if (Input.touches.Any(x => x.phase == TouchPhase.Began) && CardReleaseMode) {
-            Instantiate(_cardPrefab, _gridSnapIndicator.position, Quaternion.identity).target = _targetTransform;
-        }
-
-        if (Input.touches.Any(x => x.phase == TouchPhase.Moved) && !Utils.IsPointerOverUIObject()) {
-            if (!CardReleaseMode) {
-                _targetTransform.position = touchWorldPosition;
-            }
-        }
-#endif
+        Vector2 mousePosition = _cam.ScreenToWorldPoint(Input.mousePosition);
+        _hit2D = Physics2D.Raycast(mousePosition, Vector2.zero);
     }
 
     private void OnDrawGizmos() {
@@ -83,10 +40,6 @@ public class UIGridSnap : MonoBehaviour {
         Gizmos.color = Color.white;
 
         Gizmos.DrawLine(new Vector3(6.5f, _maxInputHeightRight, 0), new Vector3(13f, _maxInputHeightRight, 0));
-
-        if (!CardReleaseMode) {
-            return;
-        }
 
         if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x >= 6.5f) {
 
