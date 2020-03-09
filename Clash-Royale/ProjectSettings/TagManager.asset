@@ -46,3 +46,6 @@ TagManager:
   - name: Player
     uniqueID: 2210294175
     locked: 0
+  - name: Territory
+    uniqueID: 3737840923
+    locked: 0
