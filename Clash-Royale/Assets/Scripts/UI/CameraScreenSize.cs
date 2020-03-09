@@ -4,39 +4,32 @@ using UnityEngine;
 
 public class CameraScreenSize : MonoBehaviour
 {
-
-    private Camera _cam;
+    public SpriteRenderer area;
     void Start()
     {
 
-        _cam = Camera.main;
-        SetSizeCamera();
+
     }
 
 
-
+    private void Update()
+    {
+        SetSizeCamera();
+    }
     public void SetSizeCamera()
     {
 
-        if (_cam.aspect <= 0.48f)
+        float screenRatio = (float)Screen.width / (float)Screen.height;
+        float targetRatio = area.bounds.size.x / area.bounds.size.y;
+        if (screenRatio >= targetRatio)
         {
-            _cam.orthographicSize = 14.75f;
+            Camera.main.orthographicSize = area.bounds.size.y / 2;
 
         }
-        else if (_cam.aspect <= 0.51f)
+        else
         {
-            _cam.orthographicSize = 14f;
-
-        }
-        else if (_cam.aspect <= 0.57f)
-        {
-            _cam.orthographicSize = 12.5f;
-
-        }
-        else if (_cam.aspect <= 0.76f)
-        {
-            _cam.orthographicSize = 12f;
-
+            float difference = targetRatio / screenRatio;
+            Camera.main.orthographicSize = area.bounds.size.y / 2 * difference;
         }
 
 
