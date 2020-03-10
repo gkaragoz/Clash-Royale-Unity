@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9322c45ad9075b14889600fe22c6e788, type: 3}
+  m_Name: Base_Knight
+  m_EditorClassIdentifier: 
+  _id: 0
+  _name:
+    _propertySO: {fileID: 11400000, guid: 7225d449dfa569e4aa0e04b8e50081a5, type: 2}
+    _value: Knight
+  _description:
+    _propertySO: {fileID: 11400000, guid: 23b29eb09d4b1ca4cbf11a512d09a293, type: 2}
+    _value: Glory warrior.
+  _arena: {fileID: 11400000, guid: 75151c528e402524cb35e8b0d3802159, type: 2}
+  _cardType: 0
+  _cardRarity: 3
+  _elixirCost:
+    _propertySO: {fileID: 11400000, guid: 7ceb46096ee1f1949bbeff8b0e83212e, type: 2}
+    _value: 3
+  _cardLevel: {fileID: 11400000, guid: 33ed45ab5c374784d8e18fab2566c963, type: 2}
+  _hitPoints:
+    _propertySO: {fileID: 11400000, guid: 343398176c2b48e44bf9ab24d381c47e, type: 2}
+    _value: 100
