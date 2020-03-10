@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Card Level", menuName = "Scriptable Objects/Cards/Card Level")]
-public class CardLevel_SO : ScriptableObject {
+public class CardUpgradeable_SO : ScriptableObject {
 
     [Header("Debug")]
     [SerializeField]
@@ -9,25 +9,22 @@ public class CardLevel_SO : ScriptableObject {
     [SerializeField]
     private int _maxLevel;
     [SerializeField]
-    private int _currentLevel;
-    [SerializeField]
     private LevelUp[] _levels;
 
     public int BaseLevel { get => _baseLevel; set => _baseLevel = value; }
     public int MaxLevel { get => _maxLevel; set => _maxLevel = value; }
-    public int CurrentLevel { get => _currentLevel; set => _currentLevel = value; }
     public LevelUp[] Levels { get => _levels; set => _levels = value; }
 
-    public int GetTargetLevel() {
-        return Levels[CurrentLevel].TargetLevel;
+    public int GetTargetLevel(int level) {
+        return Levels[level].TargetLevel;
     }
 
-    public int GetUpgradeCost() {
-        return Levels[CurrentLevel].UpgradeCost;
+    public int GetUpgradeCost(int level) {
+        return Levels[level].UpgradeCost;
     }
 
-    public int GetRequiredCards() {
-        return Levels[CurrentLevel].RequiredCards;
+    public int GetRequiredCards(int level) {
+        return Levels[level].RequiredCards;
     }
 
 

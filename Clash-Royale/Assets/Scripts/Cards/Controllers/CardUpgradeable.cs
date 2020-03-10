@@ -1,37 +1,20 @@
 ﻿using UnityEngine;
 
-public class CardLevel : MonoBehaviour {
+[System.Serializable]
+public class CardUpgradeable {
 
-    [Header("Initialization")]
+    [Header("Initializations")]
     [SerializeField]
-    private CardLevel_SO _cardLevelDefinition_Template = null;
-
-    [Header("Debug")]
-    [SerializeField]
-    private CardLevel_SO _cardLevel = null;
-
-    #region Initializations
-
-    private void Awake() {
-        if (_cardLevelDefinition_Template != null) {
-            _cardLevel = Instantiate(_cardLevelDefinition_Template);
-        }
-    }
-
-    #endregion
+    private CardUpgradeable_SO _cardLevel = null;
 
     #region Setters
-    
+
     public void SetBaseLevel(int baseLevel) {
         _cardLevel.BaseLevel = baseLevel;
     }
 
     public void SetMaxLevel(int maxLevel) {
         _cardLevel.MaxLevel = maxLevel;
-    }
-
-    public void SetCurrentLevel(int currentLevel) {
-        _cardLevel.CurrentLevel = currentLevel;
     }
 
     public void SetLevelUp(LevelUp[] levels) {
@@ -48,10 +31,6 @@ public class CardLevel : MonoBehaviour {
 
     public int GetMaxLevel() {
         return _cardLevel.MaxLevel;
-    }
-
-    public int GetCurrentLevel() {
-        return _cardLevel.CurrentLevel;
     }
 
     public LevelUp[] GetLevelUp() {

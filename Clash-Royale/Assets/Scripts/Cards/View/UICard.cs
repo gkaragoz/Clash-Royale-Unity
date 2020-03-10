@@ -51,7 +51,7 @@ public class UICard : MonoBehaviour {
         _cardBase.OnArenaChanged += OnArenaChanged;
         _cardBase.OnCardTypeChanged += OnCardTypeChanged;
         _cardBase.OnCardRarityChanged += OnCardRarityChanged;
-        _cardBase.OnCardLevelChanged += OnCardLevelChanged;
+        _cardBase.OnCardUpgradeableChanged += OnCardLevelChanged;
         _cardBase.OnElixirCostChanged += OnElixirCostChanged;
     }
 
@@ -83,7 +83,7 @@ public class UICard : MonoBehaviour {
     }
 
     private void OnArenaChanged() {
-        _txtArena.text = "Arena:\t" + _cardBase.GetArena();
+        _txtArena.text = "Arena:\t" + _cardBase.GetArena().GetArenaName();
     }
 
     private void OnCardTypeChanged() {
@@ -113,12 +113,12 @@ public class UICard : MonoBehaviour {
     }
 
     private void OnCardLevelChanged() {
-        CardLevel_SO cardLevel = _cardBase.GetCardLevel();
-
-        _txtUpgradeCost.text = "Upgrade Cost:" + cardLevel.GetUpgradeCost();
-        _txtCardLevel.text = "Card Level:" + cardLevel.CurrentLevel;
-        _txtMaxLevel.text = "Card Max Level:" + cardLevel.MaxLevel;
-        _txtRequiredCardsToLevelUp.text = "Required Cards To Level Up:" + cardLevel.GetRequiredCards();
+        CardUpgradeable_SO cardUpgradeable = _cardBase.GetCardUpgradeable();
+        int cardLevel = _cardBase.GetCardLevel();
+        _txtUpgradeCost.text = "Upgrade Cost:" + cardUpgradeable.GetUpgradeCost(cardLevel);
+        _txtCardLevel.text = "Card Level:" + cardLevel;
+        _txtMaxLevel.text = "Card Max Level:" + cardUpgradeable.MaxLevel;
+        _txtRequiredCardsToLevelUp.text = "Required Cards To Level Up:" + cardUpgradeable.GetRequiredCards(cardLevel);
 
     }
 

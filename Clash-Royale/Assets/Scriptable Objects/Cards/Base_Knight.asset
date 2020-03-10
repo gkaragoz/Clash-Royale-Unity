@@ -19,13 +19,14 @@ MonoBehaviour:
   _description:
     _propertySO: {fileID: 11400000, guid: 23b29eb09d4b1ca4cbf11a512d09a293, type: 2}
     _value: Glory warrior.
-  _arena: {fileID: 11400000, guid: 75151c528e402524cb35e8b0d3802159, type: 2}
+  _arena:
+    _arena: {fileID: 11400000, guid: 75151c528e402524cb35e8b0d3802159, type: 2}
   _cardType: 0
   _cardRarity: 3
+  _cardUpgradeable: {fileID: 11400000, guid: 33ed45ab5c374784d8e18fab2566c963, type: 2}
   _elixirCost:
     _propertySO: {fileID: 11400000, guid: 7ceb46096ee1f1949bbeff8b0e83212e, type: 2}
     _value: 3
-  _cardLevel: {fileID: 11400000, guid: 33ed45ab5c374784d8e18fab2566c963, type: 2}
-  _hitPoints:
-    _propertySO: {fileID: 11400000, guid: 343398176c2b48e44bf9ab24d381c47e, type: 2}
-    _value: 100
+  _currentLevel:
+    _propertySO: {fileID: 0}
+    _value: 0

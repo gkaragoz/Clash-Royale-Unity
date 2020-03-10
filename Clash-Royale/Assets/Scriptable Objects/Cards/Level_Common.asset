@@ -10,18 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae31e69012fc45b44949c28814ba8310, type: 3}
-  m_Name: Level_Knight
+  m_Name: Level_Common
   m_EditorClassIdentifier: 
-  _baseLevel: 10
+  _baseLevel: 1
   _maxLevel: 13
-  _currentLevel: 1
   _levels:
-  - _number: 11
+  - _targetLevel: 0
     _upgradeCost: 500
     _requiredCards: 200
-  - _number: 12
+  - _targetLevel: 0
     _upgradeCost: 1500
     _requiredCards: 400
-  - _number: 13
+  - _targetLevel: 0
     _upgradeCost: 2500
     _requiredCards: 800

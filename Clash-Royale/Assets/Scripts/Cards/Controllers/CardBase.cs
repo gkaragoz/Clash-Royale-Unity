@@ -9,8 +9,9 @@ public class CardBase : MonoBehaviour {
     public Action OnArenaChanged;
     public Action OnCardTypeChanged;
     public Action OnCardRarityChanged;
-    public Action OnCardLevelChanged;
+    public Action OnCardUpgradeableChanged;
     public Action OnElixirCostChanged;
+    public Action OnCardLevelChanged;
 
     [Header("Initialization")]
     [SerializeField]
@@ -19,6 +20,7 @@ public class CardBase : MonoBehaviour {
     [Header("Debug")]
     [SerializeField]
     private CardBase_SO _cardBase = null;
+
 
     #region Initializations
 
@@ -49,7 +51,7 @@ public class CardBase : MonoBehaviour {
         OnDescriptionChanged?.Invoke();
     }
 
-    public void SetArena(Arena_SO arena) {
+    public void SetArena(CardArena arena) {
         _cardBase.Arena = arena;
 
         OnArenaChanged?.Invoke();
@@ -67,18 +69,23 @@ public class CardBase : MonoBehaviour {
         OnCardRarityChanged?.Invoke();
     }
 
-    public void SetCardLevel(CardLevel_SO cardLevel) {
-        _cardBase.CardLevel = cardLevel;
+    public void SetCardUpgradeable(CardUpgradeable_SO upgradeable) {
+        _cardBase.CardUpgradeable = upgradeable;
 
-        OnCardLevelChanged?.Invoke();
+        OnCardUpgradeableChanged?.Invoke();
     }
 
     public void SetElixirCost(CardIntProperty cost) {
         _cardBase.ElixirCost = cost;
-        
+
         OnElixirCostChanged?.Invoke();
     }
 
+    public void SetCardLevel(CardIntProperty level) {
+        _cardBase.CardLevel = level;
+
+        OnCardLevelChanged?.Invoke();
+    }
     #endregion
 
     #region Reporters
@@ -95,7 +102,7 @@ public class CardBase : MonoBehaviour {
         return _cardBase.Description.Value;
     }
 
-    public Arena_SO GetArena() {
+    public CardArena GetArena() {
         return _cardBase.Arena;
     }
 
@@ -107,12 +114,16 @@ public class CardBase : MonoBehaviour {
         return _cardBase.CardRarity;
     }
 
-    public CardLevel_SO GetCardLevel() {
-        return _cardBase.CardLevel;
+    public CardUpgradeable_SO GetCardUpgradeable() {
+        return _cardBase.CardUpgradeable;
     }
 
     public int GetElixirCost() {
         return _cardBase.ElixirCost.Value;
+    }
+
+    public int GetCardLevel() {
+        return _cardBase.CardLevel.Value;
     }
 
     #endregion
