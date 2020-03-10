@@ -13,6 +13,10 @@ public class CardLevel_SO : ScriptableObject {
     [SerializeField]
     private LevelUp[] _levels;
 
+    public int BaseLevel { get => _baseLevel; set => _baseLevel = value; }
+    public int MaxLevel { get => _maxLevel; set => _maxLevel = value; }
+    public int CurrentLevel { get => _currentLevel; set => _currentLevel = value; }
+    public LevelUp[] Levels { get => _levels; set => _levels = value; }
 }
 
 [System.Serializable]
@@ -23,4 +27,8 @@ public class LevelUp {
     private int _upgradeCost;
     [SerializeField]
     private int _requiredCards;
+
+    public int Number { get => _number; set => _number = value; }
+    public int UpgradeCost { get => _upgradeCost; set => _upgradeCost = value; }
+    public int RequiredCards { get => _requiredCards; set => _requiredCards = value; }
 }

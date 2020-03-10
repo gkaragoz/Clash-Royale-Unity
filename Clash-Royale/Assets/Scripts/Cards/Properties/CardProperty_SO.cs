@@ -9,4 +9,6 @@ public class CardProperty_SO : ScriptableObject {
     [SerializeField]
     private Sprite _iconSprite;
 
+    public string Name { get => _name; set => _name = value; }
+    public Sprite IconSprite { get => _iconSprite; set => _iconSprite = value; }
 }
