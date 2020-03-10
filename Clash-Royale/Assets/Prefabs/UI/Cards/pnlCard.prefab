@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7633535677039777023}
   - component: {fileID: 7633535677039777017}
   - component: {fileID: 7633535677039777016}
+  - component: {fileID: 9203690259619863510}
+  - component: {fileID: 6308181180649937855}
   m_Layer: 5
   m_Name: pnlCard
   m_TagString: Untagged
@@ -74,6 +76,49 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9203690259619863510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7633535677039777022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea17dd73dc208f6428d75b3cf8089f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardBaseDefinition_Template: {fileID: 11400000, guid: b12cf6996972f664187571c25389d034,
+    type: 2}
+  _cardBase: {fileID: 0}
+--- !u!114 &6308181180649937855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7633535677039777022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 683c4437c91268f45accd95911f6bf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _commonColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
+  _rareColor: {r: 1, g: 0.6544834, b: 0.504717, a: 1}
+  _epicColor: {r: 1, g: 0.4631136, b: 0, a: 1}
+  _LegendaryColor: {r: 0.7264151, g: 0, b: 0.50103146, a: 1}
+  _txtId: {fileID: 7633535678150049393}
+  _txtName: {fileID: 7633535677051779857}
+  _txtDescription: {fileID: 7633535677078829651}
+  _txtArena: {fileID: 7633535678802346597}
+  _txtCardType: {fileID: 7633535677849878003}
+  _txtCardRarity: {fileID: 7633535677453365330}
+  _txtElixirCost: {fileID: 7633535678333099188}
+  _txtUpgradeCost: {fileID: 7633535677219999620}
+  _txtCardLevel: {fileID: 7633535678834243082}
+  _txtMaxLevel: {fileID: 7633535677361415552}
+  _txtRequiredCardsToLevelUp: {fileID: 7633535678313197583}
+  _cardBase: {fileID: 9203690259619863510}
 --- !u!1 &7633535677051779863
 GameObject:
   m_ObjectHideFlags: 0

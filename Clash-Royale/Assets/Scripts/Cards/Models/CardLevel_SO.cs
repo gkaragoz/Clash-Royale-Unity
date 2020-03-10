@@ -17,18 +17,32 @@ public class CardLevel_SO : ScriptableObject {
     public int MaxLevel { get => _maxLevel; set => _maxLevel = value; }
     public int CurrentLevel { get => _currentLevel; set => _currentLevel = value; }
     public LevelUp[] Levels { get => _levels; set => _levels = value; }
+
+    public int GetTargetLevel() {
+        return Levels[CurrentLevel].TargetLevel;
+    }
+
+    public int GetUpgradeCost() {
+        return Levels[CurrentLevel].UpgradeCost;
+    }
+
+    public int GetRequiredCards() {
+        return Levels[CurrentLevel].RequiredCards;
+    }
+
+
 }
 
 [System.Serializable]
 public class LevelUp {
     [SerializeField]
-    private int _number;
+    private int _targetLevel;
     [SerializeField]
     private int _upgradeCost;
     [SerializeField]
     private int _requiredCards;
 
-    public int Number { get => _number; set => _number = value; }
+    public int TargetLevel { get => _targetLevel; set => _targetLevel = value; }
     public int UpgradeCost { get => _upgradeCost; set => _upgradeCost = value; }
     public int RequiredCards { get => _requiredCards; set => _requiredCards = value; }
 }

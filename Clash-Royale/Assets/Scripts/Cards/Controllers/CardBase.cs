@@ -1,6 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CardBase : MonoBehaviour {
+
+    public Action OnIdChanged;
+    public Action OnNameChanged;
+    public Action OnDescriptionChanged;
+    public Action OnArenaChanged;
+    public Action OnCardTypeChanged;
+    public Action OnCardRarityChanged;
+    public Action OnCardLevelChanged;
+    public Action OnElixirCostChanged;
 
     [Header("Initialization")]
     [SerializeField]
@@ -23,34 +33,50 @@ public class CardBase : MonoBehaviour {
     #region Setters
     public void SetId(int id) {
         _cardBase.Id = id;
+
+        OnIdChanged?.Invoke();
     }
 
     public void SetName(CardStringProperty name) {
         _cardBase.Name = name;
+
+        OnNameChanged?.Invoke();
     }
 
     public void SetDescription(CardStringProperty description) {
         _cardBase.Description = description;
+
+        OnDescriptionChanged?.Invoke();
     }
 
     public void SetArena(Arena_SO arena) {
         _cardBase.Arena = arena;
+
+        OnArenaChanged?.Invoke();
     }
 
     public void SetCardType(CardType type) {
         _cardBase.CardType = type;
+
+        OnCardTypeChanged?.Invoke();
     }
 
     public void SetCardRarity(CardRarity rarity) {
         _cardBase.CardRarity = rarity;
+
+        OnCardRarityChanged?.Invoke();
     }
 
     public void SetCardLevel(CardLevel_SO cardLevel) {
         _cardBase.CardLevel = cardLevel;
+
+        OnCardLevelChanged?.Invoke();
     }
 
     public void SetElixirCost(CardIntProperty cost) {
         _cardBase.ElixirCost = cost;
+        
+        OnElixirCostChanged?.Invoke();
     }
 
     #endregion
@@ -61,12 +87,12 @@ public class CardBase : MonoBehaviour {
         return _cardBase.Id;
     }
 
-    public CardStringProperty GetName() {
-        return _cardBase.Name;
+    public string GetName() {
+        return _cardBase.Name.Value;
     }
 
-    public CardStringProperty GetDescription() {
-        return _cardBase.Description;
+    public string GetDescription() {
+        return _cardBase.Description.Value;
     }
 
     public Arena_SO GetArena() {
@@ -85,8 +111,8 @@ public class CardBase : MonoBehaviour {
         return _cardBase.CardLevel;
     }
 
-    public CardIntProperty GetElixirCost() {
-        return _cardBase.ElixirCost;
+    public int GetElixirCost() {
+        return _cardBase.ElixirCost.Value;
     }
 
     #endregion

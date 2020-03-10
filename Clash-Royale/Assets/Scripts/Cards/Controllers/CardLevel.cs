@@ -8,13 +8,13 @@ public class CardLevel : MonoBehaviour {
 
     [Header("Debug")]
     [SerializeField]
-    private CardLevel_SO _cardLevelProperty = null;
+    private CardLevel_SO _cardLevel = null;
 
     #region Initializations
 
     private void Awake() {
         if (_cardLevelDefinition_Template != null) {
-            _cardLevelProperty = Instantiate(_cardLevelDefinition_Template);
+            _cardLevel = Instantiate(_cardLevelDefinition_Template);
         }
     }
 
@@ -23,19 +23,19 @@ public class CardLevel : MonoBehaviour {
     #region Setters
     
     public void SetBaseLevel(int baseLevel) {
-        _cardLevelProperty.BaseLevel = baseLevel;
+        _cardLevel.BaseLevel = baseLevel;
     }
 
     public void SetMaxLevel(int maxLevel) {
-        _cardLevelProperty.MaxLevel = maxLevel;
+        _cardLevel.MaxLevel = maxLevel;
     }
 
     public void SetCurrentLevel(int currentLevel) {
-        _cardLevelProperty.CurrentLevel = currentLevel;
+        _cardLevel.CurrentLevel = currentLevel;
     }
 
     public void SetLevelUp(LevelUp[] levels) {
-        _cardLevelProperty.Levels = levels;
+        _cardLevel.Levels = levels;
     }
 
     #endregion
@@ -43,19 +43,19 @@ public class CardLevel : MonoBehaviour {
     #region Reporters
 
     public int GetBaseLevel() {
-        return _cardLevelProperty.BaseLevel;
+        return _cardLevel.BaseLevel;
     }
 
     public int GetMaxLevel() {
-        return _cardLevelProperty.MaxLevel;
+        return _cardLevel.MaxLevel;
     }
 
     public int GetCurrentLevel() {
-        return _cardLevelProperty.CurrentLevel;
+        return _cardLevel.CurrentLevel;
     }
 
     public LevelUp[] GetLevelUp() {
-        return _cardLevelProperty.Levels;
+        return _cardLevel.Levels;
     }
 
     #endregion
