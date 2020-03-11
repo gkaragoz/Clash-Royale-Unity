@@ -7,7 +7,11 @@ namespace Custom {
 
         [Header("Initializations")]
         [SerializeField]
-        private AnimationEntity[] _animationEntities;
+        private AnimationEntity[] _animationEntities = null;
+
+        public Sprite[] GetFrames(AnimationType type, AnimationDirection direction) {
+            return _animationEntities[(int)type].GetFrames(direction);
+        }
 
     }
 }
