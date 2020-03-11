@@ -12,10 +12,13 @@ namespace Custom {
 
         [Header("Debug")]
         [SerializeField]
+        private AnimationType _currentAnimationType;
+        [SerializeField]
+        private AnimationDirection _currentAnimationDirection;
+        [SerializeField]
+        [Utils.ReadOnly]
         private AnimationGroup_SO _animationGroup = null;
 
-        private AnimationType _currentAnimationType;
-        private AnimationDirection _currentAnimationDirection;
         private SpriteRenderer _spriteRenderer;
 
         #region Initializations
@@ -31,7 +34,7 @@ namespace Custom {
         #endregion
 
         private void Start() {
-            RunAnimation(AnimationType.Idle, AnimationDirection.Bottom);
+            RunAnimation(_currentAnimationType, _currentAnimationDirection);
         }
 
 
