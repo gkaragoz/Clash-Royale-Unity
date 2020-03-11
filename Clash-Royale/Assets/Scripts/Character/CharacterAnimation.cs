@@ -40,10 +40,12 @@ public class CharacterAnimation : MonoBehaviour {
 
             _currentDirection = _characterAngle.GetDirection();
             _animationManager.RunAnimation(AnimationType.Run, _currentDirection);
+        } else {
+            // Is Running or Idle.
+            _animationManager.RunAnimation(AnimationType.Idle, _currentDirection);
         }
 
-        // Is Running or Idle.
-        _animationManager.RunAnimation(AnimationType.Idle, _currentDirection);
+
     }
 
 }
