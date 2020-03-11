@@ -1,7 +1,7 @@
 ﻿using Pathfinding;
 using UnityEngine;
 
-public class AnimationManager : MonoBehaviour {
+public class CharacterAnimation : MonoBehaviour {
 
     [Header("Debug")]
     [SerializeField]
@@ -12,13 +12,14 @@ public class AnimationManager : MonoBehaviour {
     private AIPath _AIPath = null;
     [SerializeField]
     [Utils.ReadOnly]
-    private Animator _anim;
-
-    private InputVector _directionVector;
+    private AnimationManager _animationManager;
+    [SerializeField]
+    [Utils.ReadOnly]
+    private Direction _currentDirection;
 
     private void Awake() {
         _AIPath = GetComponent<AIPath>();
-        _anim = GetComponentInChildren<Animator>();
+        _animationManager = GetComponentInChildren<AnimationManager>();
     }
 
     private void Update() {
@@ -32,19 +33,17 @@ public class AnimationManager : MonoBehaviour {
         if (!_AIPath.reachedDestination) {
             // Vector2.Angle gives a float value between 0-180. Needed negative y area.
             if (_AIPath.desiredVelocity.y < 0) {
-                _characterAngle = 360 - AnimationExtensions.GetAngleFromVector2(_AIPath.desiredVelocity);
+                _characterAngle = 360 - ExtensionMethods.GetAngleFromVector2(_AIPath.desiredVelocity);
             } else {
-                _characterAngle = AnimationExtensions.GetAngleFromVector2(_AIPath.desiredVelocity);
+                _characterAngle = ExtensionMethods.GetAngleFromVector2(_AIPath.desiredVelocity);
             }
 
-            _directionVector = _characterAngle.GetDirectionVector();
-
-            _anim.SetFloat("InputX", _directionVector.x);
-            _anim.SetFloat("InputY", _directionVector.y);
+            _currentDirection = _characterAngle.GetDirection();
+            _animationManager.RunAnimation(AnimationType.Run, _currentDirection);
         }
 
         // Is Running or Idle.
-        _anim.SetBool("IsRunning", !_AIPath.reachedDestination);
+        _animationManager.RunAnimation(AnimationType.Idle, _currentDirection);
     }
 
 }

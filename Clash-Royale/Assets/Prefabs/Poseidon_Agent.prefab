@@ -9,8 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2333640919881523773}
-  - component: {fileID: 2333640919881523772}
-  - component: {fileID: 700341312570647174}
+  - component: {fileID: 8699349074562676797}
   - component: {fileID: 2333640919881523762}
   - component: {fileID: 2333640919881523763}
   - component: {fileID: 2333640919881523760}
@@ -38,19 +37,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2333640919881523772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2333640919881523767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af124df4d84057443a355cc842e6e8f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &700341312570647174
+--- !u!114 &8699349074562676797
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,7 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterAngle: 0
   _AIPath: {fileID: 0}
-  _anim: {fileID: 0}
+  _animationManager: {fileID: 0}
+  _currentDirection: 0
 --- !u!114 &2333640919881523762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,7 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2333640919933164235}
   - component: {fileID: 2333640919933164234}
-  - component: {fileID: 2333640919933164245}
+  - component: {fileID: 7783008797287945409}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -274,22 +262,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &2333640919933164245
-Animator:
-  serializedVersion: 3
+--- !u!114 &7783008797287945409
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2333640919933164232}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3221e5a6b0fb42f48a4c24c01a3e232d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b727d2425029e5040838997df333b012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationGroupDefinition_Template: {fileID: 11400000, guid: 78493c4ef21419644985aa80dd49d554,
+    type: 2}
+  _frameRate: 10
+  _currentAnimationType: 0
+  _currentAnimationDirection: 0
+  _animationGroup: {fileID: 0}
