@@ -43,9 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Player
-    uniqueID: 2210294175
-    locked: 0
   - name: Territory
     uniqueID: 3737840923
+    locked: 0
+  - name: GroundTile
+    uniqueID: 2381474323
+    locked: 0
+  - name: Player
+    uniqueID: 2210294175
     locked: 0
