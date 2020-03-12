@@ -14,6 +14,9 @@ TextureImporter:
   - first:
       213: -6917190318713038381
     second: environments-tile-map_0
+  - first:
+      213: -7848775193567664476
+    second: environments-tile-map_1
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -181,7 +184,7 @@ TextureImporter:
         width: 75
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -189,6 +192,31 @@ TextureImporter:
       bones: []
       spriteID: 3d99651dd043100a0800000000000000
       internalID: -6917190318713038381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: environments-tile-map_1
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 382
+        width: 77
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -34.5, y: -61}
+        - {x: -34.5, y: 61}
+        - {x: 34.5, y: 61}
+        - {x: 34.5, y: -61}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a66089cb8c831390800000000000000
+      internalID: -7848775193567664476
       vertices: []
       indices: 
       edges: []
