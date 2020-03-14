@@ -38,4 +38,8 @@ public class UICardSnap : MonoBehaviour {
         _cardSpawnIndicator.position = _grid.GetCellCenterWorld(Vector3Int.FloorToInt(cardSpawnLogicPosition));
     }
 
+    public Vector2 ExportPosition() {
+        return _cardSpawnIndicator.position;
+    }
+
 }
