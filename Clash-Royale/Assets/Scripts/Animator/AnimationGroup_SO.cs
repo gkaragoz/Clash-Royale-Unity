@@ -7,6 +7,10 @@ public class AnimationGroup_SO : ScriptableObject {
     [SerializeField]
     private AnimationEntity[] _animationEntities = null;
 
+    public void Load(AnimationEntity[] entities) {
+        _animationEntities = entities;
+    }
+
     public Sprite[] GetFrames(AnimationType type, Direction direction) {
         return _animationEntities[(int)type].GetFrames(direction);
     }

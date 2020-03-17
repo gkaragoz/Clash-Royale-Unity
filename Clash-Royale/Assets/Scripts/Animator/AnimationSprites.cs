@@ -13,11 +13,17 @@ public class AnimationSprites {
         get {
             return _direction;
         }
+        set {
+            _direction = value;
+        }
     }
 
     public Sprite[] Sprites {
         get {
             return _sprites;
+        }
+        set {
+            _sprites = value;
         }
     }
 

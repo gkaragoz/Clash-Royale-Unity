@@ -13,6 +13,18 @@ public class AnimationEntity {
         get {
             return _animationType;
         }
+        set {
+            _animationType = value;
+        }
+    }
+
+    public AnimationSprites[] AnimationSprites { 
+        get {
+            return animationSprites;
+        } 
+        set {
+            animationSprites = value;
+        }
     }
 
     public Sprite[] GetFrames(Direction direction) {
