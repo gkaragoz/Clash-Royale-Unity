@@ -15,12 +15,39 @@ MonoBehaviour:
   _baseLevel: 1
   _maxLevel: 13
   _levels:
-  - _targetLevel: 0
-    _upgradeCost: 500
-    _requiredCards: 200
-  - _targetLevel: 0
-    _upgradeCost: 1500
-    _requiredCards: 400
-  - _targetLevel: 0
+  - _targetLevel: 2
+    _upgradeCost: 10
+    _requiredCards: 2
+  - _targetLevel: 3
+    _upgradeCost: 20
+    _requiredCards: 4
+  - _targetLevel: 4
+    _upgradeCost: 40
+    _requiredCards: 8
+  - _targetLevel: 5
+    _upgradeCost: 80
+    _requiredCards: 16
+  - _targetLevel: 6
+    _upgradeCost: 160
+    _requiredCards: 32
+  - _targetLevel: 7
+    _upgradeCost: 320
+    _requiredCards: 64
+  - _targetLevel: 8
+    _upgradeCost: 640
+    _requiredCards: 128
+  - _targetLevel: 9
+    _upgradeCost: 1280
+    _requiredCards: 256
+  - _targetLevel: 10
     _upgradeCost: 2500
-    _requiredCards: 800
+    _requiredCards: 512
+  - _targetLevel: 11
+    _upgradeCost: 3000
+    _requiredCards: 1024
+  - _targetLevel: 12
+    _upgradeCost: 3500
+    _requiredCards: 2048
+  - _targetLevel: 13
+    _upgradeCost: 4000
+    _requiredCards: 4096

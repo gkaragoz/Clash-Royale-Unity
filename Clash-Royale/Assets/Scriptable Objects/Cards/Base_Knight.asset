@@ -28,5 +28,5 @@ MonoBehaviour:
     _propertySO: {fileID: 11400000, guid: 7ceb46096ee1f1949bbeff8b0e83212e, type: 2}
     _value: 3
   _currentLevel:
-    _propertySO: {fileID: 0}
-    _value: 0
+    _propertySO: {fileID: 11400000, guid: b4e53565fe80ea1408cfdefdea405412, type: 2}
+    _value: 1
