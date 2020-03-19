@@ -1,63 +1,111 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
-public class UICardPlacer : MonoBehaviour {
+namespace Ganover.InGame.UI {
 
-    [Header("Initializations")]
-    [SerializeField]
-    private int _row = 3;
-    [SerializeField]
-    private int _column = 3;
-    [SerializeField]
-    private LayerMask _layerMask = -1;
-    [SerializeField]
-    private BoxCollider2D _pathFinderCollider = null;
+    public class UICardPlacer : MonoBehaviour {
 
-    [SerializeField]
-    [Utils.ReadOnly]
-    private bool _isColliding;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private bool _build = false;
+        // TODO 
+        // Create another class to handle these Actions.
+        //public Action<CardID> OnCardSelected;
+        //public Action<CardID> OnCardDeselected;
+        //public Action<CardID> OnCardReleased;
 
-    [SerializeField]
-    [Utils.ReadOnly]
-    private UICardSnap _positionData;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private SpriteRenderer _renderSprite;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private Collider2D _buildableArea;
+        [Header("Debug")]
+        [SerializeField]
+        private LivingEntityTypes _selectedType = LivingEntityTypes.None;
 
-    private void Awake() {
-        _renderSprite = GetComponent<SpriteRenderer>();
-    }
+        private Coroutine _selectorCoroutine;
+        private GameObject _cardPrefab;
+        private GameObject _selectedCard;
 
-    private void Start() {
-        _positionData = GameObject.Find("__UICardSnap").GetComponent<UICardSnap>();
-    }
-
-    private void Update() {
-        if (!_build) {
-            _renderSprite.color = Color.white;
-
-            transform.position = _positionData.ExportPosition();
-
-            _buildableArea = Physics2D.OverlapBox(transform.position - new Vector3(0, .5f, 0), new Vector2(0.585f * _row, .5f * _column), 0, _layerMask);
-            if (_buildableArea != null) {
-                _renderSprite.color = Color.red;
-                _isColliding = true;
-            } else {
-                _isColliding = false;
-            }
-            if (Input.GetMouseButtonDown(0)) {
-                if (!_isColliding) {
-                    _build = true;
-                    _pathFinderCollider.gameObject.SetActive(true);
-                }
-            }
-        } else {
-            return;
+        private void SelectCard() {
+            _selectorCoroutine = StartCoroutine(ISelectCard());
         }
+
+        public bool HasCard {
+            get {
+                return _selectorCoroutine == null ? true : false;
+            }
+        }
+
+        private IEnumerator ISelectCard() {
+            Debug.Log("Select card and start coroutine for " + this._selectedType);
+            _selectedCard = Instantiate(_cardPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+
+            while (true) {
+                _selectedCard.transform.position = GetNodePosition();
+
+                if (Input.GetMouseButtonDown(0)) {
+                    Deploy();
+                    break;
+                }
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
+
+        private void DeselectCard() {
+            Debug.Log("Deselect card and stop coroutine for " + this._selectedType);
+
+            StopCoroutine(_selectorCoroutine);
+            _selectorCoroutine = null;
+
+            Destroy(_selectedCard);
+            _cardPrefab = null;
+            _selectedType = LivingEntityTypes.None;
+        }
+
+        private void Deploy() {
+            switch (_selectedType) {
+                case LivingEntityTypes.None:
+                    break;
+                case LivingEntityTypes.DynamicFly:
+                    break;
+                case LivingEntityTypes.DynamicGround:
+                    break;
+                case LivingEntityTypes.Static:
+                    break;
+            }
+        }
+
+        private Vector2 GetNodePosition() {
+            return Vector2.zero;
+        }
+
+        private void SwitchCard(UICard newCard) {
+            Debug.Log("Switching card between " + this._selectedCard.name + " and " + newCard.CardPrefab.name);
+            
+            if (this._selectedType == newCard.Type) {
+
+                DeselectCard();
+                return;
+            } else {
+                DeselectCard();
+
+                this._selectedType = newCard.Type;
+                this._cardPrefab = newCard.CardPrefab;
+
+                SelectCard();
+            }
+        }
+
+        public void SelectType(UICard uiCard) {
+            Debug.Log("Selected type: " + uiCard.Type);
+
+            if (HasCard) {
+                Debug.Log("First time selected. ");
+
+                this._selectedType = uiCard.Type;
+                this._cardPrefab = uiCard.CardPrefab;
+
+                SelectCard();
+            } else {
+                SwitchCard(uiCard);
+            }
+        }
+
     }
+
 }

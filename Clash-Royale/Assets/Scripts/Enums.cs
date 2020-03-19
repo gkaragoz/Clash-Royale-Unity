@@ -8,3 +8,10 @@
     BottomLeft,
     Left
 }
+
+public enum LivingEntityTypes {
+    None,
+    DynamicFly,
+    DynamicGround,
+    Static
+}
