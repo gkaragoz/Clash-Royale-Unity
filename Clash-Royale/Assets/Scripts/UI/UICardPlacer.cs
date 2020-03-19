@@ -66,6 +66,8 @@ namespace Ganover.InGame.UI {
                     GameObject lastCard2 = Instantiate(_selectedCard, GetNodePosition(), Quaternion.identity);
                     lastCard2.transform.GetChild(1).gameObject.SetActive(true);
                     lastCard2.transform.GetChild(0).gameObject.SetActive(false);
+                    lastCard2.transform.GetChild(4).gameObject.SetActive(true);
+
                     AstarPath.active.Scan();
                     DeselectCard();
                     break;
@@ -73,6 +75,7 @@ namespace Ganover.InGame.UI {
                     GameObject lastCard1 = Instantiate(_selectedCard, GetNodePosition(), Quaternion.identity);
                     lastCard1.transform.GetChild(1).gameObject.SetActive(true);
                     lastCard1.transform.GetChild(0).gameObject.SetActive(false);
+                    lastCard1.transform.GetChild(4).gameObject.SetActive(true);
                     AstarPath.active.Scan();
                     DeselectCard();
                     break;
@@ -80,6 +83,8 @@ namespace Ganover.InGame.UI {
                     GameObject lastCard = Instantiate(_selectedCard, GetNodePosition(), Quaternion.identity);
                     lastCard.transform.GetChild(1).gameObject.SetActive(true);
                     lastCard.transform.GetChild(0).gameObject.SetActive(false);
+                    lastCard.transform.GetChild(4).gameObject.SetActive(true);
+
                     AstarPath.active.Scan();
                     DeselectCard();
                     break;
