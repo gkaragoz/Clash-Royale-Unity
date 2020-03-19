@@ -4,56 +4,51 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DenemeForCard : MonoBehaviour {
-
-    public List<Button> buttons;
-
+    [Header("Initializations")]
+    [SerializeField]
+    private Grid _grid = null;
+    [Header("Area Dedection")]
+    [SerializeField]
+    private float availableHeightLeft;
+    [SerializeField]
+    private float availableHeightRight;
+    [Header("Cards and Buttons")]
     public GameObject troopPrefab;
-    public GameObject troopPrefabHighLight;
     public GameObject buildingPrefab;
-    public GameObject buildingPrefabHighLight;
     public GameObject birdPrefab;
-    public GameObject objectHolder;
-
     bool isSelected;
-
+    [Header("Cards and Buttons")]
     [SerializeField]
+    [Utils.ReadOnly]
+    Vector3 mousePosToRealWorld;
     int currentIndex = 10;
-    [SerializeField]
-    Vector3[] firstSize;
-    int fixedUpdateCount;
 
     private void Start() {
-        firstSize = new Vector3[buttons.Count];
-        for (int i = 0; i < buttons.Count; i++) {
-            firstSize[i] = buttons[i].transform.position;
-        }
-    }
 
+    }
+    private void OnDrawGizmos() {
+        //
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(Vector3.zero + Vector3.up * availableHeightRight, Vector3.right * 100 + Vector3.up * availableHeightRight);
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawLine(Vector3.zero + Vector3.up * availableHeightLeft, Vector3.left * 100 + Vector3.up * availableHeightLeft);
+    }
     public void SelectUICardButton(int index) {
 
         if (currentIndex != index) {
 
             isSelected = true;
 
-            currentIndex = index;
-            buttons[index].transform.position = Vector3.up * 20 + buttons[index].transform.position;
-
-
-            for (int i = 0; i < buttons.Count; i++) {
-                if (i == index) {
-                    continue;
-                }
-                buttons[i].transform.position = firstSize[i];
-            }
-
-
-
             switch (index) {
                 case 0:
-                    StartCoroutine(SelectCard(troopPrefab, troopPrefabHighLight));
+                    StartCoroutine(SelectCard(troopPrefab));
                     break;
                 case 1:
-                    StartCoroutine(SelectCard(buildingPrefab, buildingPrefabHighLight));
+                    StartCoroutine(SelectCard(buildingPrefab));
+                    break;
+                case 2:
+                    StartCoroutine(SelectCard(buildingPrefab));
                     break;
                 default:
                     break;
@@ -63,20 +58,26 @@ public class DenemeForCard : MonoBehaviour {
     }
 
 
-
-    IEnumerator SelectCard(GameObject card, GameObject high) {
-        GameObject cloneObje = Instantiate(card, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+    /// <summary>
+    /// İHTİMAL BİR
+    /// </summary>
+    /// <param name="card"></param>
+    /// <returns></returns>
+    IEnumerator SelectCard(GameObject card) {
+        GameObject cardClone = Instantiate(card, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
 
 
         while (isSelected) {
 
-            Vector3 cam = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            cloneObje.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10;  // Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10;
+            mousePosToRealWorld = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x / _grid.cellSize.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y / _grid.cellSize.y, 0f);
 
-            // cloneObje.transform.position = Vector3.MoveTowards(cloneObje.transform.position, new Vector3(cam.x, cam.y, 0), 200 * Time.deltaTime); ;   // Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10;
+            cardClone.transform.position = _grid.GetCellCenterWorld(Vector3Int.FloorToInt(mousePosToRealWorld));
+
+
             if (Input.GetMouseButtonDown(0)) {
-                //  Destroy(cloneObje);
-                //Instantiate(card, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+                if (currentIndex == 0) {
+                    cardClone.AddComponent<CharacterAnimation>();
+                }
                 isSelected = false;
             }
 
@@ -86,6 +87,42 @@ public class DenemeForCard : MonoBehaviour {
 
     }
 
+
+
+
+
+    /// <summary>
+    /// İHTİMAL İKİ
+    /// </summary>
+    /// <param name="card"></param>
+    /// <param name="cardClonePicture"></param>
+    /// <returns></returns>
+    /* IEnumerator SelectCard(GameObject card,GameObject cardHighLightObject) {
+         GameObject cloneObje = Instantiate(card, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+
+
+         while (isSelected) {
+
+             mousePosToRealWorld = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x / _grid.cellSize.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y / _grid.cellSize.y, 0f);
+
+
+             cloneObje.transform.position = _grid.GetCellCenterWorld(Vector3Int.FloorToInt(mousePosToRealWorld));
+             // cloneObje.transform.position = mousePosToRealWorld;  // Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10;
+
+             // cloneObje.transform.position = Vector3.MoveTowards(cloneObje.transform.position, new Vector3(cam.x, cam.y, 0), 200 * Time.deltaTime); ;   // Camera.main.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10;
+             if (Input.GetMouseButtonDown(0)) {
+                 if (currentIndex == 0) {
+                     cloneObje.AddComponent<CharacterAnimation>();
+
+                 }
+                 //Instantiate(card, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+                 isSelected = false;
+             }
+
+             yield return new WaitForFixedUpdate();
+         }
+
+         */
 
 
 }
