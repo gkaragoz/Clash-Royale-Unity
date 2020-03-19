@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pathfinding;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ namespace Ganover.InGame.UI {
 
         private IEnumerator ISelectCard() {
             Debug.Log("Select card and start coroutine for " + this._selectedType);
-            _selectedCard = Instantiate(_cardPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+            _selectedCard = Instantiate(_cardPrefab);
 
             while (true) {
                 _selectedCard.transform.position = GetNodePosition();
@@ -62,21 +63,45 @@ namespace Ganover.InGame.UI {
                 case LivingEntityTypes.None:
                     break;
                 case LivingEntityTypes.DynamicFly:
+                    GameObject lastCard2 = Instantiate(_selectedCard, GetNodePosition(), Quaternion.identity);
+                    lastCard2.transform.GetChild(1).gameObject.SetActive(true);
+                    lastCard2.transform.GetChild(0).gameObject.SetActive(false);
+                    AstarPath.active.Scan();
+                    DeselectCard();
                     break;
                 case LivingEntityTypes.DynamicGround:
+                    GameObject lastCard1 = Instantiate(_selectedCard, GetNodePosition(), Quaternion.identity);
+                    lastCard1.transform.GetChild(1).gameObject.SetActive(true);
+                    lastCard1.transform.GetChild(0).gameObject.SetActive(false);
+                    AstarPath.active.Scan();
+                    DeselectCard();
                     break;
                 case LivingEntityTypes.Static:
+                    GameObject lastCard = Instantiate(_selectedCard, GetNodePosition(), Quaternion.identity);
+                    lastCard.transform.GetChild(1).gameObject.SetActive(true);
+                    lastCard.transform.GetChild(0).gameObject.SetActive(false);
+                    AstarPath.active.Scan();
+                    DeselectCard();
                     break;
             }
         }
 
         private Vector2 GetNodePosition() {
-            return Vector2.zero;
+
+
+            NNConstraint constraint = NNConstraint.None;
+            constraint.constrainWalkability = true;
+            constraint.walkable = true;
+            constraint.graphMask = 1 << 1;
+            GraphNode gg = AstarPath.active.GetNearest(Camera.main.ScreenToWorldPoint(Input.mousePosition), constraint).node;
+
+            Debug.Log((Vector3)gg.position);
+            return (Vector3)gg.position;
         }
 
         private void SwitchCard(UICard newCard) {
             Debug.Log("Switching card between " + this._selectedCard.name + " and " + newCard.CardPrefab.name);
-            
+
             if (this._selectedType == newCard.Type) {
 
                 DeselectCard();
