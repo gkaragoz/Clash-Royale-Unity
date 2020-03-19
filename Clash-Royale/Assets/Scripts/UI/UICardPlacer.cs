@@ -43,7 +43,7 @@ namespace Ganover.InGame.UI {
                     break;
                 }
 
-                yield return new WaitForFixedUpdate();
+                yield return null;
             }
         }
 
@@ -95,7 +95,6 @@ namespace Ganover.InGame.UI {
             constraint.graphMask = 1 << 1;
             GraphNode gg = AstarPath.active.GetNearest(Camera.main.ScreenToWorldPoint(Input.mousePosition), constraint).node;
 
-            Debug.Log((Vector3)gg.position);
             return (Vector3)gg.position;
         }
 
