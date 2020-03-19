@@ -9,13 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4594067591705786256}
+  - component: {fileID: 5354352647274599872}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: UI_BuildingCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4594067591705786256
 Transform:
   m_ObjectHideFlags: 0
@@ -30,6 +31,32 @@ Transform:
   m_Father: {fileID: 4594067591990601295}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &5354352647274599872
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4594067591705786263}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
 --- !u!1 &4594067591990601267
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,8 +72,8 @@ GameObject:
   - component: {fileID: 4594067591990601289}
   - component: {fileID: 4594067591990601288}
   - component: {fileID: 4594067591990601290}
-  m_Layer: 0
-  m_Name: BinaCard
+  m_Layer: 8
+  m_Name: TowerBuildingCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +133,7 @@ SpriteRenderer:
   m_SortingLayerID: -2084673121
   m_SortingLayer: 3
   m_SortingOrder: 5
-  m_Sprite: {fileID: 4620670729455692856, guid: b0ee1ea127b554843b29497afd079a2c,
+  m_Sprite: {fileID: -1895269304268804734, guid: b0ee1ea127b554843b29497afd079a2c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -125,7 +152,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4594067591990601267}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -142,7 +169,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.12, y: 1.91}
+  m_Size: {x: 1.9, y: 1.9}
   m_EdgeRadius: 0
 --- !u!114 &4594067591990601292
 MonoBehaviour:
@@ -151,7 +178,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4594067591990601267}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 183748dd497aa473a98ff0cd8cb67fc5, type: 3}
   m_Name: 
@@ -159,7 +186,7 @@ MonoBehaviour:
   version: 1
   uniqueID: 6770928582806752320
   updateError: 1
-  checkTime: 0.2
+  checkTime: 0.1
 --- !u!114 &4594067591990601289
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -109,12 +109,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5140706057542053598}
-  - component: {fileID: 2274314535815541982}
   - component: {fileID: 5140706057542053585}
   - component: {fileID: 5140706057542053584}
   - component: {fileID: 5140706057542053587}
   - component: {fileID: 5140706057542053586}
-  - component: {fileID: 5140706057542053589}
   m_Layer: 0
   m_Name: GurkanFab
   m_TagString: Untagged
@@ -137,22 +135,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2274314535815541982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5140706057542053588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb74b2e64c7d4314eb3e116e89de34bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _characterAngle: 0
-  _AIPath: {fileID: 0}
-  _animationManager: {fileID: 0}
-  _currentDirection: 0
 --- !u!114 &5140706057542053585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,25 +240,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 5140706057320535592}
---- !u!114 &5140706057542053589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5140706057542053588}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb6a34d769a1e4ac7b0b30e433aa443c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  smoothType: 0
-  subdivisions: 2
-  iterations: 2
-  strength: 0.5
-  uniformLength: 1
-  maxSegmentLength: 0.3
-  bezierTangentLength: 0.4
-  offset: 0.2
-  factor: 0.1
