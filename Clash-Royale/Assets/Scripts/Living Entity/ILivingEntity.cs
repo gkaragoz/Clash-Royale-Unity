@@ -2,6 +2,8 @@
 
 public interface ILivingEntity {
 
+    void Deploy();
+
     void MoveTo(Transform target);
 
     void MoveTo(Vector2 position);
