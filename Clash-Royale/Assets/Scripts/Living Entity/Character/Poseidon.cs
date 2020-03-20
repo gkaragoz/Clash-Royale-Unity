@@ -3,11 +3,11 @@
 public class Poseidon : Character {
 
     public override void Awake() {
-        base.Awake();
+        //base.Awake();
 
-        Debug.Log("Poseidon awake.");
+        //Debug.Log("Poseidon awake.");
 
-        Deploy();
+        //Deploy();
     }
 
     public override void Deploy() {

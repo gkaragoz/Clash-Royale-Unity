@@ -9,12 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2333640919881523773}
+  - component: {fileID: 1840889431869200246}
   - component: {fileID: 8699349074562676797}
   - component: {fileID: 2333640919881523762}
   - component: {fileID: 2333640919881523763}
   - component: {fileID: 2333640919881523760}
   - component: {fileID: 2333640919881523761}
   - component: {fileID: 2333640919881523766}
+  - component: {fileID: 6016352965572666825}
   m_Layer: 0
   m_Name: Poseidon_Agent
   m_TagString: Untagged
@@ -37,6 +39,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1840889431869200246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333640919881523767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a351d8352848b4b85e642962eb15e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterStats: {fileID: 0}
 --- !u!114 &8699349074562676797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,6 +195,20 @@ MonoBehaviour:
   bezierTangentLength: 0.4
   offset: 0.2
   factor: 0.1
+--- !u!114 &6016352965572666825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333640919881523767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9ab2d3af0e01049b92ba7fb8a7102c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterDefinition_Template: {fileID: 0}
+  _character: {fileID: 0}
 --- !u!1 &2333640919933164232
 GameObject:
   m_ObjectHideFlags: 0

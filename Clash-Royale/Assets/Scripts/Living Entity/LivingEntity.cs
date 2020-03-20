@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class LivingEntity : MonoBehaviour, ILivingEntity {
+public class LivingEntity : MonoBehaviour, ILivingEntity, IPooledObject {
 
     private const string CLASS_NAME = "[LIVING ENTITY]";
 
@@ -32,5 +32,8 @@ public class LivingEntity : MonoBehaviour, ILivingEntity {
         Debug.Log(CLASS_NAME + this.gameObject.name + " is going to die.");
     }
 
+    public virtual void OnObjectReused() {
+        Debug.Log("sadf");
+    }
 
 }

@@ -15,8 +15,21 @@ public abstract class Character : LivingEntity {
         Debug.Log(CLASS_NAME + " awake.");
     }
 
+    public override void OnObjectReused() {
+        base.OnObjectReused();
+
+        Debug.Log("On Object Reused");
+
+        Deploy();
+    }
+
     public override void Deploy() {
         base.Deploy();
+
+        // a* 'ı aç. 
+        // target belirle.
+        // sdflksdf
+        this.gameObject.SetActive(true);
 
         // Timer UI tetikle
         // Deploy time kadar geriye say.
