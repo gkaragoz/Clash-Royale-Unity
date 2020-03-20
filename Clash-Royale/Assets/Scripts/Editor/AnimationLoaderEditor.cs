@@ -70,7 +70,7 @@ public class AnimationLoaderEditor : EditorWindow {
         GUILayout.Space(10f);
         // TODO find better one rather than Deprecated
         GUILayout.Label("Initializations:\t", EditorStyles.boldLabel);
-        targetAnimationSO = (AnimationGroup_SO)EditorGUILayout.ObjectField("Target Animation SO\t", targetAnimationSO, typeof(AnimationGroup_SO));
+        targetAnimationSO = (AnimationGroup_SO)EditorGUILayout.ObjectField("Target Animation SO\t", targetAnimationSO, typeof(AnimationGroup_SO), false);
         path = EditorGUILayout.TextField("Path:\t\t", path);
 
         GUILayout.Space(10f);
