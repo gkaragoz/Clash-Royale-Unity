@@ -1759,10 +1759,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pools:
   - parentTransform: {fileID: 1726422574}
+    name: Ingame_StaticBuilding
+    prefab: {fileID: 7362138387845603111, guid: 0a101d21eaf08ca448be23302cf4af22,
+      type: 3}
+    size: 10
+  - parentTransform: {fileID: 1726422574}
     name: Ingame_Poseidon
     prefab: {fileID: 2333640919881523767, guid: da1e4978ef01e4e4591ccadb33e83cc8,
       type: 3}
-    size: 25
+    size: 10
 --- !u!1001 &1760425047
 PrefabInstance:
   m_ObjectHideFlags: 0

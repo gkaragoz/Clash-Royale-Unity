@@ -72,19 +72,17 @@ namespace Ganover.InGame.UI {
                     DeselectCard();
                     break;
                 case LivingEntityTypes.DynamicGround:
-                    GameObject lastCard1 = Instantiate(_selectedCard, GetNodePosition(), Quaternion.identity);
-                    lastCard1.transform.GetChild(1).gameObject.SetActive(true);
-                    lastCard1.transform.GetChild(0).gameObject.SetActive(false);
-                    lastCard1.transform.GetChild(4).gameObject.SetActive(true);
+                    GameObject obj = ObjectPooler.instance.SpawnFromPool("Ingame_Poseidon", GetNodePosition(), Quaternion.identity);
+                    Destroy(_selectedCard);
                     AstarPath.active.Scan();
                     DeselectCard();
                     break;
                 case LivingEntityTypes.Static:
-                    GameObject lastCard = Instantiate(_selectedCard, GetNodePosition(), Quaternion.identity);
-                    lastCard.transform.GetChild(1).gameObject.SetActive(true);
-                    lastCard.transform.GetChild(0).gameObject.SetActive(false);
-                    lastCard.transform.GetChild(4).gameObject.SetActive(true);
-
+                    GameObject obje1 = ObjectPooler.instance.SpawnFromPool("Ingame_StaticBuilding", GetNodePosition(), Quaternion.identity);
+                    obje1.transform.GetChild(1).gameObject.SetActive(true);
+                    obje1.transform.GetChild(0).gameObject.SetActive(false);
+                    obje1.transform.GetChild(4).gameObject.SetActive(true);
+                    Destroy(_selectedCard);
                     AstarPath.active.Scan();
                     DeselectCard();
                     break;

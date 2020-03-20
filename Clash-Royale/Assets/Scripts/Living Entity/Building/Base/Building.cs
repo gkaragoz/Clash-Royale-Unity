@@ -1,0 +1,70 @@
+﻿using UnityEngine;
+
+[RequireComponent(typeof(BuildingStats))]
+public abstract class Building : LivingEntity {
+
+    [Header("Initializations")]
+    [SerializeField]
+    private BuildingStats _buildingStats;
+
+    private const string CLASS_NAME = "[BUILDING]";
+
+    public override void Awake() {
+        base.Awake();
+
+        Debug.Log(CLASS_NAME + " awake.");
+    }
+
+    public override void OnObjectReused() {
+        base.OnObjectReused();
+
+        Debug.Log("On Object Reused");
+
+        Deploy();
+    }
+
+    public override void Deploy() {
+        base.Deploy();
+
+        // a* 'ı aç. 
+        // target belirle.
+        // sdflksdf
+        this.gameObject.SetActive(true);
+
+        // Timer UI tetikle
+        // Deploy time kadar geriye say.
+        // Hareket classlarını aktif et.
+
+        Debug.Log(CLASS_NAME + this + " Deployed.");
+    }
+
+    public override void MoveTo(Transform target) {
+        base.MoveTo(target);
+
+        Debug.Log(CLASS_NAME + this + " MoveTo " + target.name + " transform.");
+    }
+
+    public override void MoveTo(Vector2 position) {
+        base.MoveTo(position);
+
+        Debug.Log(CLASS_NAME + this + " MoveTo " + position + " position.");
+    }
+
+    public override void MoveTo(LivingEntity entity) {
+        base.MoveTo(entity);
+
+        Debug.Log(CLASS_NAME + this + " MoveTo " + entity.name + " entity.");
+    }
+
+    public override void AttackTo(LivingEntity entity) {
+        base.AttackTo(entity);
+
+        Debug.Log(CLASS_NAME + this + " AttackTo " + entity.name + " entity.");
+    }
+
+    public override void Die() {
+        base.Die();
+
+        Debug.Log(CLASS_NAME + this + " is going to die.");
+    }
+}

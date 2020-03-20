@@ -199,7 +199,7 @@ MonoBehaviour:
   canSearch: 0
   canMove: 0
   maxSpeed: 1
-  gravity: {x: NaN, y: NaN, z: NaN}
+  gravity: {x: 0, y: 0, z: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 4294967295

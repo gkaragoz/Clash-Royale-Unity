@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour {
 
     private void Start() {
         ObjectPooler.instance.InitializePool("Ingame_Poseidon");
+        ObjectPooler.instance.InitializePool("Ingame_StaticBuilding");
 
-        InvokeRepeating("Ins", 0f, 1f);
     }
 
     public void Ins() {
