@@ -28,12 +28,12 @@ public class GameManager : MonoBehaviour {
     public float vSliderValue = 0.0f;
 
     void OnGUI() {
-        vSliderValue = GUI.VerticalSlider(new Rect(Screen.width / 2, Screen.height / 4 , 300, Screen.height / 2), vSliderValue, 25.5f, 5f);
+        vSliderValue = GUI.VerticalSlider(new Rect(Screen.width - 30, Screen.height / 4 , 30, Screen.height / 2), vSliderValue, 25.5f, 5f);
 
         GUIStyle s = new GUIStyle();
         s.fontSize = 50;
         
-        GUI.Label(new Rect(Screen.width / 2, Screen.height / 4, 100, 100), vSliderValue.ToString(), s);
+        GUI.Label(new Rect(Screen.width - 30, Screen.height / 4, 100, 100), vSliderValue.ToString(), s);
         Camera.main.orthographicSize = vSliderValue;
     }
 
