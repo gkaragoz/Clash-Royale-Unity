@@ -95,7 +95,7 @@ MonoBehaviour:
   traversableTags: -1
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
-    value: -1
+    value: -3
 --- !u!114 &2333640919881523763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +118,7 @@ MonoBehaviour:
   obstacleTimeHorizon: 0.2
   maxNeighbours: 10
   layer: 1
-  collidesWith: -1
+  collidesWith: 1
   wallAvoidForce: 1
   wallAvoidFalloff: 1
   priority: 0.5
@@ -138,7 +138,7 @@ MonoBehaviour:
   version: 2
   radius: 0.2
   height: 2
-  repathRate: 0.1
+  repathRate: 0.01
   canSearch: 1
   canMove: 1
   maxSpeed: 1
@@ -153,7 +153,7 @@ MonoBehaviour:
   maxAcceleration: -2.5
   rotationSpeed: 360
   slowdownDistance: 0.3
-  pickNextWaypointDist: 0.7
+  pickNextWaypointDist: 0.2
   endReachedDistance: 0.2
   alwaysDrawGizmos: 1
   slowWhenNotFacingTarget: 1
