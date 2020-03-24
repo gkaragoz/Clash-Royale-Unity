@@ -33,7 +33,7 @@ public class LivingEntity : MonoBehaviour, ILivingEntity, IPooledObject {
     }
 
     public virtual void OnObjectReused() {
-        Debug.Log("sadf");
+        Debug.Log("OnObjectReused");
     }
 
 }

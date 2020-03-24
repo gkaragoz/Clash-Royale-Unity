@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static class ExtensionMethods {
 
@@ -42,6 +43,14 @@ public static class ExtensionMethods {
             Debug.LogError("Check this degree status.");
             return Direction.Bottom;
         }
+    }
+
+    /// <summary>
+    /// Get counts of directions from direction Enum.
+    /// </summary>
+    /// <returns>int directionCount</returns>
+    public static int GetDirectionsCount() {
+        return Enum.GetNames(typeof(Direction)).Length;
     }
 
 }

@@ -18,7 +18,7 @@ public abstract class Character : LivingEntity {
     public override void OnObjectReused() {
         base.OnObjectReused();
 
-        Debug.Log("On Object Reused");
+        Debug.Log(CLASS_NAME + " On Object Reused");
 
         Deploy();
     }

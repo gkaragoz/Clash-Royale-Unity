@@ -2,6 +2,7 @@
 using System.IO;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,60 +11,55 @@ public class AnimationLoaderEditor : EditorWindow {
 
     AnimationGroup_SO targetAnimationSO;
     string path = "Assets/Resources/Characters/";
-    DirectoryInfo[] directoryInfos;
+    FileInfo[] fileInfos;
 
     [MenuItem("Window/Animation Loader")]
     public static void ShowWindow() {
         GetWindow<AnimationLoaderEditor>("Animation Loader");
     }
 
-    private void SearchFolders() {
+    private void SearchFiles() {
         try {
             DirectoryInfo tempDirInfo = new DirectoryInfo(path);
-            directoryInfos = tempDirInfo.GetDirectories("*.*");
+            fileInfos = tempDirInfo.GetFiles("*.png");
         } catch (Exception e) {
             Debug.LogWarning(e.Message);
         }
     }
 
     private void Load() {
-        int animatitonTypesCount = directoryInfos.Length;
+        int animatitonTypesCount = fileInfos.Length;
         AnimationEntity[] animationEntities = new AnimationEntity[animatitonTypesCount];
 
         for (int ii = 0; ii < animationEntities.Length; ii++) {
             animationEntities[ii] = new AnimationEntity();
-
-            if (Enum.TryParse(directoryInfos[ii].Name, out AnimationType animationType)) {
-                animationEntities[ii].AnimationType = animationType;
-                animationEntities[ii].AnimationSprites = GetAnimationSprites(animationType);
-            } else {
-                Debug.LogError("Animation Type not found! Check sub folder names.");
-                return;
-            }
+            animationEntities[ii].AnimationType = (AnimationType)ii;
+            animationEntities[ii].AnimationSprites = GetAnimationSprites((AnimationType)ii);
         }
 
         targetAnimationSO.Load(animationEntities);
     }
 
     private AnimationSprites[] GetAnimationSprites(AnimationType animationType) {
-        AnimationSprites[] animationSprites = new AnimationSprites[Enum.GetNames(typeof(Direction)).Length];
 
-        for (int ii = 0; ii < animationSprites.Length; ii++) {
+        int directionsCount = ExtensionMethods.GetDirectionsCount();
+        AnimationSprites[] animationSprites = new AnimationSprites[directionsCount];
+
+        for (int ii = 0; ii < directionsCount; ii++) {
             animationSprites[ii] = new AnimationSprites();
-
-            DirectoryInfo directionFolder = directoryInfos.Where(d => d.Name == animationType.ToString()).SingleOrDefault();
-            DirectoryInfo[] directionFolders = directionFolder.GetDirectories();
-
-            if (Enum.TryParse(directionFolders[ii].Name, out Direction direction)) {
-                animationSprites[ii].Direction = direction;
-                animationSprites[ii].Sprites = Resources.LoadAll<Sprite>(path.Replace("Assets/Resources/", "") + "/" + animationType + "/" + direction.ToString());
-            } else {
-                Debug.LogError("Animation Direction not found! Check sub folder names.");
-                return null;
-            }
+            animationSprites[ii].Direction = (Direction)ii;
+            animationSprites[ii].Sprites = GetAnimationFrames(ii, animationType);
         }
 
         return animationSprites;
+    }
+
+    private Sprite[] GetAnimationFrames(int index, AnimationType animationType) {
+        List<Sprite> sprites = (Resources.LoadAll<Sprite>(path.Replace("Assets/Resources/", "") + animationType.ToString()).ToList());
+
+        int frameCount = sprites.Count / ExtensionMethods.GetDirectionsCount();
+
+        return sprites.GetRange(frameCount * index, frameCount).ToArray();
     }
 
     private void OnGUI() {
@@ -74,17 +70,17 @@ public class AnimationLoaderEditor : EditorWindow {
         path = EditorGUILayout.TextField("Path:\t\t", path);
 
         GUILayout.Space(10f);
-        if (GUILayout.Button("Search Folders")) {
-            SearchFolders();
+        if (GUILayout.Button("Search Files")) {
+            SearchFiles();
         }
         GUILayout.Space(10f);
 
-        if (directoryInfos == null) {
+        if (fileInfos == null) {
             return;
         }
 
-        foreach (DirectoryInfo dir in directoryInfos) {
-            GUILayout.Label(dir.FullName, EditorStyles.boldLabel);
+        foreach (FileInfo file in fileInfos) {
+            GUILayout.Label(file.FullName, EditorStyles.boldLabel);
         }
 
         if (targetAnimationSO == null) {
