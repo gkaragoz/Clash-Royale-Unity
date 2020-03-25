@@ -2,9 +2,11 @@
 using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding.RVO;
 
 public class MyAgent : MonoBehaviour {
 
+    public RVOController rvo;
     [Header("Initializations")]
     [SerializeField]
     private List<Transform> _targetTransforms = null;
@@ -35,14 +37,13 @@ public class MyAgent : MonoBehaviour {
 
     public void Start() {
         _seeker = GetComponent<Seeker>();
-
+        
         _startCoroutine = StartCoroutine(IStart());
     }
 
     private IEnumerator IStart() {
         while (true) {
             _seeker.StartMultiTargetPath(transform.position, GetGoalVectors(), false, OnPathComplete, _seeker.graphMask);
-
             yield return new WaitForSeconds(_searchRate);
         }
     }
@@ -78,10 +79,10 @@ public class MyAgent : MonoBehaviour {
     }
 
     private void Update() {
-
         if (_currentPath == null) {
             return;
         }
+
 
         _reachedEndOfPath = false;
         float distanceToWaypoint;
@@ -104,9 +105,13 @@ public class MyAgent : MonoBehaviour {
         var speedFactor = _reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint / _nextWaypointDistance) : 1f;
 
         Vector3 dir = (_currentPath.vectorPath[_currentWaypoint] - transform.position).normalized;
-        velocity = dir * _speed * speedFactor;
+        velocity = dir * _speed * speedFactor;       
+        // transform.position += velocity * Time.deltaTime;
+        // rvo.Move(_currentPath.vectorPath[_currentWaypoint]);
+        rvo.SetTarget(_currentPath.vectorPath[_currentWaypoint], _speed, _speed+2);
+        var delta = rvo.CalculateMovementDelta(transform.position, Time.deltaTime);
+        transform.position = transform.position + delta;
 
-        transform.position += velocity * Time.deltaTime;
     }
 
     private void DestroyTarget() {
