@@ -1,69 +1,108 @@
-﻿using Pathfinding;
+﻿using UnityEngine;
+using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class MyAgent : VersionedMonoBehaviour {
+public class MyAgent : MonoBehaviour {
 
     [Header("Initializations")]
     [SerializeField]
-    public float searchTime = 0.1f;
+    private List<Transform> _targetTransforms = null;
     [SerializeField]
-    public bool shouldSearch = true;
+    private float _searchRate = 0.2f;
     [SerializeField]
-    public Transform[] goals;
+    private Path _currentPath = null;
+    [SerializeField]
+    private float _speed = 2;
+    [SerializeField]
+    private float _nextWaypointDistance = 0.2f;
 
     [Header("Debug")]
     [SerializeField]
     [Utils.ReadOnly]
-    private List<Vector3> _goalVectors;
+    private Seeker _seeker = null;
     [SerializeField]
     [Utils.ReadOnly]
-    private Vector3 _currentDestination;
+    private int _currentWaypoint = 0;
     [SerializeField]
     [Utils.ReadOnly]
-    private Seeker _seeker;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private AIPath _aiPath;
+    private bool _reachedEndOfPath = false;
 
-    private void Start() {
+    public void Start() {
         _seeker = GetComponent<Seeker>();
-        _aiPath = GetComponent<AIPath>();
 
-        _goalVectors = new List<Vector3>();
-        foreach (Transform goal in goals) {
-            _goalVectors.Add(goal.position);
-        }
-
-        StartCoroutine(ISearch());
+        StartCoroutine(IStart());
     }
 
-    private IEnumerator ISearch() {
-        while (shouldSearch) {
-            if (HasTargetReached()) {
-                OnTargetReached();
+    private IEnumerator IStart() {
+        while (true) {
+            _seeker.StartMultiTargetPath(transform.position, GetGoalVectors(), false, OnPathComplete);
+
+            yield return new WaitForSeconds(_searchRate);
+        }
+    }
+
+    private Vector3[] GetGoalVectors() {
+        Vector3[] goalVectors = new Vector3[_targetTransforms.Count];
+
+        for (int ii = 0; ii < goalVectors.Length; ii++) {
+            if (_targetTransforms[ii] == null)
+                continue;
+
+            goalVectors[ii] = _targetTransforms[ii].position;
+        }
+
+        return goalVectors;
+    }
+
+    public void OnPathComplete(Path p) {
+        if (!p.error) {
+            _currentPath = p as MultiTargetPath;
+            _currentWaypoint = 0;
+        }
+    }
+
+    private void Update() {
+        if (_currentPath == null) {
+            return;
+        }
+
+        _reachedEndOfPath = false;
+        float distanceToWaypoint;
+
+        while (true) {
+            distanceToWaypoint = Vector3.Distance(transform.position, _currentPath.vectorPath[_currentWaypoint]);
+            if (distanceToWaypoint < _nextWaypointDistance) {
+                if (_currentWaypoint + 1 < _currentPath.vectorPath.Count) {
+                    _currentWaypoint++;
+                } else {
+                    _reachedEndOfPath = true;
+                    DestroyTarget();
+                    break;
+                }
+            } else {
+                break;
             }
-
-            MultiTargetPath MTP = _seeker.StartMultiTargetPath(transform.position, _goalVectors.ToArray(), false);
-            _currentDestination = MTP.endPoint;
-
-            Debug.Log("endPoint: " + MTP.endPoint);
-            Debug.Log("originalEndPoint: " + MTP.originalEndPoint);
-
-            yield return new WaitForSeconds(searchTime);
         }
+
+        var speedFactor = _reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint / _nextWaypointDistance) : 1f;
+
+        Vector3 dir = (_currentPath.vectorPath[_currentWaypoint] - transform.position).normalized;
+        Vector3 velocity = dir * _speed * speedFactor;
+
+        transform.position += velocity * Time.deltaTime;
     }
 
-    private bool HasTargetReached() {
-        float distance = Vector3.Distance(transform.position, _currentDestination);
-        //Debug.Log(distance + " me: " + transform.position + "  currentDestination: " + _currentDestination);
+    private void DestroyTarget() {
+        Transform willRemoveTransform = null;
+        for (int ii = 0; ii < _targetTransforms.Count; ii++) {
+            if (_targetTransforms[ii].position == _currentPath.vectorPath[_currentWaypoint]) {
+                willRemoveTransform = _targetTransforms[ii];
+                break;
+            }
+        }
 
-        return distance <= _aiPath.endReachedDistance ? true : false;
-    }
-
-    public void OnTargetReached() {
-        _goalVectors.Remove(_currentDestination);
+        _targetTransforms.Remove(willRemoveTransform);
     }
 
 }
