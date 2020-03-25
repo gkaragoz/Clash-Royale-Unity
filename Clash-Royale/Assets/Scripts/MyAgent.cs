@@ -16,6 +16,9 @@ public class MyAgent : MonoBehaviour {
     private float _speed = 2;
     [SerializeField]
     private float _nextWaypointDistance = 0.2f;
+    [SerializeField]
+    private Vector3 velocity = Vector3.zero;
+
 
     [Header("Debug")]
     [SerializeField]
@@ -70,12 +73,12 @@ public class MyAgent : MonoBehaviour {
             Stop();
             return;
         }
-
         _currentPath = p;
         _currentWaypoint = 0;
     }
 
     private void Update() {
+
         if (_currentPath == null) {
             return;
         }
@@ -101,7 +104,7 @@ public class MyAgent : MonoBehaviour {
         var speedFactor = _reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint / _nextWaypointDistance) : 1f;
 
         Vector3 dir = (_currentPath.vectorPath[_currentWaypoint] - transform.position).normalized;
-        Vector3 velocity = dir * _speed * speedFactor;
+        velocity = dir * _speed * speedFactor;
 
         transform.position += velocity * Time.deltaTime;
     }
@@ -118,4 +121,16 @@ public class MyAgent : MonoBehaviour {
         _targetTransforms.Remove(willRemoveTransform);
     }
 
+   
+
+
+    public Vector2 GetVelocity()
+    {
+        return new Vector2(velocity.x,velocity.y);
+    }
+
+    public bool IsReached()
+    {
+        return _reachedEndOfPath;
+    }
 }
