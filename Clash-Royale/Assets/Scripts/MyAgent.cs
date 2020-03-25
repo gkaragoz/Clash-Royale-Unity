@@ -36,7 +36,7 @@ public class MyAgent : MonoBehaviour {
 
     private IEnumerator IStart() {
         while (true) {
-            _seeker.StartMultiTargetPath(transform.position, GetGoalVectors(), false, OnPathComplete);
+            _seeker.StartMultiTargetPath(transform.position, GetGoalVectors(), false, OnPathComplete, _seeker.graphMask);
 
             yield return new WaitForSeconds(_searchRate);
         }
@@ -56,10 +56,13 @@ public class MyAgent : MonoBehaviour {
     }
 
     public void OnPathComplete(Path p) {
-        if (!p.error) {
-            _currentPath = p as MultiTargetPath;
-            _currentWaypoint = 0;
+        if (p.error) {
+            Debug.LogError(p.errorLog);
+            return;
         }
+
+        _currentPath = p;
+        _currentWaypoint = 0;
     }
 
     private void Update() {
