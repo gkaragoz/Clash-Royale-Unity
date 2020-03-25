@@ -28,10 +28,12 @@ public class MyAgent : MonoBehaviour {
     [Utils.ReadOnly]
     private bool _reachedEndOfPath = false;
 
+    private Coroutine _startCoroutine;
+
     public void Start() {
         _seeker = GetComponent<Seeker>();
 
-        StartCoroutine(IStart());
+        _startCoroutine = StartCoroutine(IStart());
     }
 
     private IEnumerator IStart() {
@@ -40,6 +42,13 @@ public class MyAgent : MonoBehaviour {
 
             yield return new WaitForSeconds(_searchRate);
         }
+    }
+
+    private void Stop() {
+        if (_startCoroutine == null)
+            return;
+
+        StopCoroutine(_startCoroutine);
     }
 
     private Vector3[] GetGoalVectors() {
@@ -58,6 +67,7 @@ public class MyAgent : MonoBehaviour {
     public void OnPathComplete(Path p) {
         if (p.error) {
             Debug.LogError(p.errorLog);
+            Stop();
             return;
         }
 
