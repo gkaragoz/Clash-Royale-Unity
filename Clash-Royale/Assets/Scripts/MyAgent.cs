@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Pathfinding.RVO;
 
 public class MyAgent : MonoBehaviour {
-
     [Header("Initializations")]
     [SerializeField]
     private List<Transform> _targetTransforms = null;
@@ -72,8 +71,9 @@ public class MyAgent : MonoBehaviour {
         for (int ii = 0; ii < goalVectors.Length; ii++) {
             if (_targetTransforms[ii] == null)
                 continue;
-
-            goalVectors[ii] = _targetTransforms[ii].position;
+          
+          //  goalVectors[ii] = _targetTransforms[ii].position;
+            goalVectors[ii] = SetTargetFinalPPosition(_targetTransforms[ii]);
         }
 
         return goalVectors;
@@ -99,12 +99,19 @@ public class MyAgent : MonoBehaviour {
         float distanceToWaypoint;
 
         while (true) {
+            Debug.Log(_currentPath.vectorPath[_currentPath.vectorPath.Count - 1]);
+
             distanceToWaypoint = Vector3.Distance(transform.position, _currentPath.vectorPath[_currentWaypoint]);
             if (distanceToWaypoint < _nextWaypointDistance) {
                 if (_currentWaypoint + 1 < _currentPath.vectorPath.Count) {
+                    
+
+
                     _currentWaypoint++;
-                } else {
+                }
+                else {
                     _reachedEndOfPath = true;
+
                     DestroyTarget();
                     break;
                 }
@@ -127,13 +134,23 @@ public class MyAgent : MonoBehaviour {
     private void DestroyTarget() {
         Transform willRemoveTransform = null;
         for (int ii = 0; ii < _targetTransforms.Count; ii++) {
-            if (_targetTransforms[ii].position == _currentPath.vectorPath[_currentWaypoint]) {
+            Debug.Log(Vector3.Distance(_targetTransforms[ii].position, _currentPath.vectorPath[_currentWaypoint]));
+            if (/*_targetTransforms[ii].position == _currentPath.vectorPath[_currentWaypoint] || */Vector3.Distance(_targetTransforms[ii].position, _currentPath.vectorPath[_currentWaypoint])<2f) {
                 willRemoveTransform = _targetTransforms[ii];
+                Debug.Log("Destroyed");
                 break;
             }
         }
-
         _targetTransforms.Remove(willRemoveTransform);
+    }
+
+
+
+    public Vector3 SetTargetFinalPPosition(Transform target)
+    {
+        Vector3 targetDir = target.position - transform.position;
+
+        return target.position - targetDir.normalized;
     }
 
 }
