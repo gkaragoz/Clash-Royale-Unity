@@ -6,23 +6,23 @@ using Pathfinding.RVO;
 
 public class MyAgent : MonoBehaviour {
 
-    public RVOController rvo;
     [Header("Initializations")]
     [SerializeField]
     private List<Transform> _targetTransforms = null;
     [SerializeField]
     private float _searchRate = 0.2f;
     [SerializeField]
-    private Path _currentPath = null;
-    [SerializeField]
-    private float _speed = 2;
+    private float _maxSpeed = 2;
     [SerializeField]
     private float _nextWaypointDistance = 0.2f;
-    [SerializeField]
-    private Vector3 velocity = Vector3.zero;
-
 
     [Header("Debug")]
+    [SerializeField]
+    [Utils.ReadOnly]
+    private RVOController _rvo;
+    [SerializeField]
+    [Utils.ReadOnly]
+    private Path _currentPath = null;
     [SerializeField]
     [Utils.ReadOnly]
     private Seeker _seeker = null;
@@ -32,11 +32,22 @@ public class MyAgent : MonoBehaviour {
     [SerializeField]
     [Utils.ReadOnly]
     private bool _reachedEndOfPath = false;
+    [SerializeField]
+    private Vector3 _currentVelocity = Vector3.zero;
 
     private Coroutine _startCoroutine;
 
+    public Vector2 GetVelocity() {
+        return new Vector2(_currentVelocity.x, _currentVelocity.y);
+    }
+
+    public bool HasReachedToDestination() {
+        return _reachedEndOfPath;
+    }
+
     public void Start() {
         _seeker = GetComponent<Seeker>();
+        _rvo = GetComponent<RVOController>();
         
         _startCoroutine = StartCoroutine(IStart());
     }
@@ -105,13 +116,12 @@ public class MyAgent : MonoBehaviour {
         var speedFactor = _reachedEndOfPath ? Mathf.Sqrt(distanceToWaypoint / _nextWaypointDistance) : 1f;
 
         Vector3 dir = (_currentPath.vectorPath[_currentWaypoint] - transform.position).normalized;
-        velocity = dir * _speed * speedFactor;       
-        // transform.position += velocity * Time.deltaTime;
-        // rvo.Move(_currentPath.vectorPath[_currentWaypoint]);
-        rvo.SetTarget(_currentPath.vectorPath[_currentWaypoint], _speed, _speed+2);
-        var delta = rvo.CalculateMovementDelta(transform.position, Time.deltaTime);
-        transform.position = transform.position + delta;
+        _currentVelocity = dir * _maxSpeed * speedFactor;
 
+        _rvo.SetTarget(_currentPath.vectorPath[_currentWaypoint], _maxSpeed, _maxSpeed+2);
+        var delta = _rvo.CalculateMovementDelta(transform.position, Time.deltaTime);
+
+        transform.position = transform.position + delta;
     }
 
     private void DestroyTarget() {
@@ -126,16 +136,4 @@ public class MyAgent : MonoBehaviour {
         _targetTransforms.Remove(willRemoveTransform);
     }
 
-   
-
-
-    public Vector2 GetVelocity()
-    {
-        return new Vector2(velocity.x,velocity.y);
-    }
-
-    public bool IsReached()
-    {
-        return _reachedEndOfPath;
-    }
 }

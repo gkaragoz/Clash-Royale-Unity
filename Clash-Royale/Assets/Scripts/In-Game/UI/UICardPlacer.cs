@@ -25,14 +25,13 @@ namespace Ganover.InGame.UI {
             _selectorCoroutine = StartCoroutine(ISelectCard());
         }
 
-        public bool HasCard {
+        public bool IsEmpty {
             get {
                 return _selectorCoroutine == null ? true : false;
             }
         }
 
         private IEnumerator ISelectCard() {
-            Debug.Log("Select card and start coroutine for " + this._selectedType);
             _selectedCard = Instantiate(_cardPrefab);
 
             while (true) {
@@ -48,8 +47,6 @@ namespace Ganover.InGame.UI {
         }
 
         private void DeselectCard() {
-            Debug.Log("Deselect card and stop coroutine for " + this._selectedType);
-
             StopCoroutine(_selectorCoroutine);
             _selectorCoroutine = null;
 
@@ -63,35 +60,23 @@ namespace Ganover.InGame.UI {
                 case LivingEntityTypes.None:
                     break;
                 case LivingEntityTypes.DynamicFly:
-                    GameObject lastCard2 = Instantiate(_selectedCard, GetNodePosition(), Quaternion.identity);
-                    lastCard2.transform.GetChild(1).gameObject.SetActive(true);
-                    lastCard2.transform.GetChild(0).gameObject.SetActive(false);
-                    lastCard2.transform.GetChild(4).gameObject.SetActive(true);
-
-                    AstarPath.active.Scan();
-                    DeselectCard();
                     break;
                 case LivingEntityTypes.DynamicGround:
-                    GameObject obj = ObjectPooler.instance.SpawnFromPool("Ingame_Poseidon", GetNodePosition(), Quaternion.identity);
-                    Destroy(_selectedCard);
-                    AstarPath.active.Scan();
-                    DeselectCard();
+                    ObjectPooler.instance.SpawnFromPool("Ingame_Poseidon", GetNodePosition(), Quaternion.identity);
                     break;
                 case LivingEntityTypes.Static:
-                    GameObject obje1 = ObjectPooler.instance.SpawnFromPool("Ingame_StaticBuilding", GetNodePosition(), Quaternion.identity);
-                    obje1.transform.GetChild(1).gameObject.SetActive(true);
-                    obje1.transform.GetChild(0).gameObject.SetActive(false);
-                    obje1.transform.GetChild(4).gameObject.SetActive(true);
-                    Destroy(_selectedCard);
-                    AstarPath.active.Scan();
-                    DeselectCard();
+                    GameObject go = ObjectPooler.instance.SpawnFromPool("Ingame_StaticBuilding", GetNodePosition(), Quaternion.identity);
+                    go.transform.GetChild(1).gameObject.SetActive(true);
+                    go.transform.GetChild(0).gameObject.SetActive(false);
+                    go.transform.GetChild(4).gameObject.SetActive(true);
                     break;
             }
+            
+            DeselectCard();
+            AstarPath.active.Scan();
         }
 
         private Vector2 GetNodePosition() {
-
-
             NNConstraint constraint = NNConstraint.None;
             constraint.constrainWalkability = true;
             constraint.walkable = true;
@@ -102,8 +87,6 @@ namespace Ganover.InGame.UI {
         }
 
         private void SwitchCard(UICard newCard) {
-            Debug.Log("Switching card between " + this._selectedCard.name + " and " + newCard.CardPrefab.name);
-
             if (this._selectedType == newCard.Type) {
 
                 DeselectCard();
@@ -119,11 +102,7 @@ namespace Ganover.InGame.UI {
         }
 
         public void SelectType(UICard uiCard) {
-            Debug.Log("Selected type: " + uiCard.Type);
-
-            if (HasCard) {
-                Debug.Log("First time selected. ");
-
+            if (IsEmpty) {
                 this._selectedType = uiCard.Type;
                 this._cardPrefab = uiCard.CardPrefab;
 

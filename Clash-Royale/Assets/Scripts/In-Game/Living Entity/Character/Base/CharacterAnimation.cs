@@ -1,5 +1,4 @@
-﻿using Pathfinding;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharacterAnimation : MonoBehaviour {
 
@@ -9,7 +8,7 @@ public class CharacterAnimation : MonoBehaviour {
     private float _characterAngle;
     [SerializeField]
     [Utils.ReadOnly]
-    private MyAgent myAgent = null;
+    private MyAgent _myAgent = null;
     [SerializeField]
     [Utils.ReadOnly]
     private AnimationManager _animationManager;
@@ -18,24 +17,26 @@ public class CharacterAnimation : MonoBehaviour {
     private Direction _currentDirection;
 
     private void Awake() {
-        myAgent = GetComponent<MyAgent>();
+        _myAgent = GetComponent<MyAgent>();
         _animationManager = GetComponentInChildren<AnimationManager>();
     }
 
     private void Update() {
-        if (myAgent == null)
+        if (_myAgent == null)
             return;
 
         SetInputParams();
     }
 
     private void SetInputParams() {
-        if (!myAgent.IsReached()) {            
+        if (!_myAgent.HasReachedToDestination()) {
+            Vector2 agentVelocity = _myAgent.GetVelocity();
+
             // Vector2.Angle gives a float value between 0-180. Needed negative y area.
-            if (myAgent.GetVelocity().y < 0) {
-                _characterAngle = 360 - ExtensionMethods.GetAngleFromVector2(myAgent.GetVelocity());
+            if (agentVelocity.y < 0) {
+                _characterAngle = 360 - ExtensionMethods.GetAngleFromVector2(agentVelocity);
             } else {
-                _characterAngle = ExtensionMethods.GetAngleFromVector2(myAgent.GetVelocity());
+                _characterAngle = ExtensionMethods.GetAngleFromVector2(agentVelocity);
             }
 
             _currentDirection = _characterAngle.GetDirection();
@@ -44,8 +45,6 @@ public class CharacterAnimation : MonoBehaviour {
             // Is Running or Idle.
             _animationManager.RunAnimation(AnimationType.Idle, _currentDirection);
         }
-
-
     }
 
 }
