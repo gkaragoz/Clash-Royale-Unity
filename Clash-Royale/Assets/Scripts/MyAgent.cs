@@ -99,7 +99,6 @@ public class MyAgent : MonoBehaviour {
         float distanceToWaypoint;
 
         while (true) {
-            Debug.Log(_currentPath.vectorPath[_currentPath.vectorPath.Count - 1]);
 
             distanceToWaypoint = Vector3.Distance(transform.position, _currentPath.vectorPath[_currentWaypoint]);
             if (distanceToWaypoint < _nextWaypointDistance) {
