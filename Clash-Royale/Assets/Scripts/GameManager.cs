@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
 
     #endregion
 
+    public Transform[] targets; //////////////////
+
     private void Start() {
         ObjectPooler.instance.InitializePool("Ingame_Poseidon");
         ObjectPooler.instance.InitializePool("Ingame_StaticBuilding");

@@ -4,7 +4,7 @@ public class HealthBar : MonoBehaviour {
 
     [Header("Initializations")]
     [SerializeField]
-    private Image _imgFill;
+    private Image _imgFill = null;
 
     [Header("Debug")]
     [SerializeField]

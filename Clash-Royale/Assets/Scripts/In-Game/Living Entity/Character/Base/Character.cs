@@ -1,24 +1,57 @@
-﻿using UnityEngine;
+﻿using Pathfinding;
+using System;
+using UnityEngine;
 
-[RequireComponent(typeof(CharacterStats))]
+[RequireComponent(typeof(CharacterStats), typeof(CharacterMotor), typeof(CharacterPathfinder))]
 public abstract class Character : LivingEntity {
+
+    public Action OnCharacterDeployed;
+    public Action OnCharacterDead;
 
     [Header("Initializations")]
     [SerializeField]
     private CharacterStats _characterStats;
 
-    private const string CLASS_NAME = "[CHARACTER]";
+    [Header("Debug")]
+    [SerializeField]
+    [Utils.ReadOnly]
+    private CharacterMotor _characterMotor;
+    [SerializeField]
+    [Utils.ReadOnly]
+    private CharacterPathfinder _characterPathfinder;
+
+    public Transform CurrentTargetTransform {
+        get {
+            return _characterPathfinder.CurrentTarget; //////////////////
+        }
+    }
 
     public override void Awake() {
         base.Awake();
 
-        Debug.Log(CLASS_NAME + " awake.");
+        _characterMotor = GetComponent<CharacterMotor>();
+        _characterPathfinder = GetComponent<CharacterPathfinder>();
+
+        _characterPathfinder.OnPathFound += OnPathFound;
+        _characterMotor.OnTargetReached += OnTargetReached;
+    }
+
+    private void OnPathFound(Path path) {
+        _characterMotor.SetPath(path);
+        _characterMotor.StartMovement();
+    }
+
+    private void OnTargetReached() {
+        _characterPathfinder.StopSearch();
+        _characterMotor.StopMovement();
+
+        //////////////////_characterPathfinder.RemoveTarget(CurrentTargetTransform);
+
+        _characterPathfinder.StartSearch();
     }
 
     public override void OnObjectReused() {
         base.OnObjectReused();
-
-        Debug.Log(CLASS_NAME + " On Object Reused");
 
         Deploy();
     }
@@ -26,45 +59,21 @@ public abstract class Character : LivingEntity {
     public override void Deploy() {
         base.Deploy();
 
-        // a* 'ı aç. 
-        // target belirle.
-        // sdflksdf
         this.gameObject.SetActive(true);
 
-        // Timer UI tetikle
-        // Deploy time kadar geriye say.
-        // Hareket classlarını aktif et.
+        for (int ii = 0; ii < GameManager.instance.targets.Length; ii++) {
+            //////////////////_characterPathfinder.AddTarget(GameManager.instance.targets[ii]);
+        }
 
-        Debug.Log(CLASS_NAME + this + " Deployed.");
-    }
+        _characterPathfinder.StartSearch();
 
-    public override void MoveTo(Transform target) {
-        base.MoveTo(target);
-
-        Debug.Log(CLASS_NAME + this + " MoveTo " + target.name + " transform.");
-    }
-
-    public override void MoveTo(Vector2 position) {
-        base.MoveTo(position);
-
-        Debug.Log(CLASS_NAME + this + " MoveTo " + position + " position.");
-    }
-
-    public override void MoveTo(LivingEntity entity) {
-        base.MoveTo(entity);
-
-        Debug.Log(CLASS_NAME + this + " MoveTo " + entity.name + " entity.");
-    }
-
-    public override void AttackTo(LivingEntity entity) {
-        base.AttackTo(entity);
-
-        Debug.Log(CLASS_NAME + this + " AttackTo " + entity.name + " entity.");
+        OnCharacterDeployed?.Invoke();
     }
 
     public override void Die() {
         base.Die();
 
-        Debug.Log(CLASS_NAME + this + " is going to die.");
+        OnCharacterDead?.Invoke();
     }
+
 }

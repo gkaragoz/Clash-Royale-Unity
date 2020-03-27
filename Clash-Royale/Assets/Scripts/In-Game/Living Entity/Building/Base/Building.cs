@@ -38,24 +38,6 @@ public abstract class Building : LivingEntity {
         Debug.Log(CLASS_NAME + this + " Deployed.");
     }
 
-    public override void MoveTo(Transform target) {
-        base.MoveTo(target);
-
-        Debug.Log(CLASS_NAME + this + " MoveTo " + target.name + " transform.");
-    }
-
-    public override void MoveTo(Vector2 position) {
-        base.MoveTo(position);
-
-        Debug.Log(CLASS_NAME + this + " MoveTo " + position + " position.");
-    }
-
-    public override void MoveTo(LivingEntity entity) {
-        base.MoveTo(entity);
-
-        Debug.Log(CLASS_NAME + this + " MoveTo " + entity.name + " entity.");
-    }
-
     public override void AttackTo(LivingEntity entity) {
         base.AttackTo(entity);
 

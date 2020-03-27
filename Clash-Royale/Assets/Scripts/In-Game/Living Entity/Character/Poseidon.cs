@@ -9,8 +9,4 @@ public class Poseidon : Character {
         base.Deploy();
     }
 
-    public override void MoveTo(Vector2 position) {
-        base.MoveTo(position);
-    }
-
 }

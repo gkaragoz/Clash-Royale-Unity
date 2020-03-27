@@ -16,8 +16,4 @@ public class Center : Building {
         Debug.Log("Final deployed");
     }
 
-    public override void MoveTo(Vector2 position) {
-        base.MoveTo(position);
-    }
-
 }

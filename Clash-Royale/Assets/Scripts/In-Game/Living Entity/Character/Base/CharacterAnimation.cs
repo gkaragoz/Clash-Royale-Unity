@@ -8,7 +8,7 @@ public class CharacterAnimation : MonoBehaviour {
     private float _characterAngle;
     [SerializeField]
     [Utils.ReadOnly]
-    private MyAgent _myAgent = null;
+    private CharacterMotor _characterMotor = null;
     [SerializeField]
     [Utils.ReadOnly]
     private AnimationManager _animationManager;
@@ -17,20 +17,20 @@ public class CharacterAnimation : MonoBehaviour {
     private Direction _currentDirection;
 
     private void Awake() {
-        _myAgent = GetComponent<MyAgent>();
+        _characterMotor = GetComponent<CharacterMotor>();
         _animationManager = GetComponentInChildren<AnimationManager>();
     }
 
     private void Update() {
-        if (_myAgent == null)
+        if (_characterMotor == null)
             return;
 
         SetInputParams();
     }
 
     private void SetInputParams() {
-        if (!_myAgent.HasReachedToDestination()) {
-            Vector2 agentVelocity = _myAgent.GetVelocity();
+        if (!_characterMotor.HasReachedToDestination()) {
+            Vector2 agentVelocity = _characterMotor.GetCurrentVelocity();
 
             // Vector2.Angle gives a float value between 0-180. Needed negative y area.
             if (agentVelocity.y < 0) {
