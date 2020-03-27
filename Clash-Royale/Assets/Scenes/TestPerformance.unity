@@ -440,34 +440,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344402345}
   m_CullTransparentMesh: 0
---- !u!1 &380869188 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3072058347484319810, guid: da1e4978ef01e4e4591ccadb33e83cc8,
-    type: 3}
-  m_PrefabInstance: {fileID: 1874959441}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &380869196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 380869188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb6a34d769a1e4ac7b0b30e433aa443c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  smoothType: 0
-  subdivisions: 2
-  iterations: 5
-  strength: 0.5
-  uniformLength: 1
-  maxSegmentLength: 2
-  bezierTangentLength: 0.4
-  offset: 0.2
-  factor: 0.1
 --- !u!1 &401398672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1111,6 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89395e1671ccf364085a14529290ca5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthPanelRect: {fileID: 715136789}
   _selectedType: 0
 --- !u!1 &781415976
 GameObject:
@@ -1952,6 +1925,11 @@ MonoBehaviour:
       type: 3}
     size: 10
   - parentTransform: {fileID: 1726422574}
+    name: Ingame_HealthBar
+    prefab: {fileID: 3444665863447299043, guid: 539027316fb370f4aa0fe67694ace9ba,
+      type: 3}
+    size: 10
+  - parentTransform: {fileID: 1726422574}
     name: Ingame_Poseidon
     prefab: {fileID: 3072058347484319810, guid: da1e4978ef01e4e4591ccadb33e83cc8,
       type: 3}
@@ -2309,46 +2287,6 @@ PrefabInstance:
       propertyPath: _targetTransforms.Array.data[2]
       value: 
       objectReference: {fileID: 1506488495}
-    - target: {fileID: 3072058347484319811, guid: da1e4978ef01e4e4591ccadb33e83cc8,
-        type: 3}
-      propertyPath: _targetTransforms.Array.data[3]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3072058347484319811, guid: da1e4978ef01e4e4591ccadb33e83cc8,
-        type: 3}
-      propertyPath: pivot
-      value: 
-      objectReference: {fileID: 781415976}
-    - target: {fileID: 3072058347484319811, guid: da1e4978ef01e4e4591ccadb33e83cc8,
-        type: 3}
-      propertyPath: _maxSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3072058347484319814, guid: da1e4978ef01e4e4591ccadb33e83cc8,
-        type: 3}
-      propertyPath: radiusBackingField
-      value: 0.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 3072058347484319815, guid: da1e4978ef01e4e4591ccadb33e83cc8,
-        type: 3}
-      propertyPath: startEndModifier.exactStartPoint
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3072058347484319815, guid: da1e4978ef01e4e4591ccadb33e83cc8,
-        type: 3}
-      propertyPath: startEndModifier.exactEndPoint
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3072058347484319815, guid: da1e4978ef01e4e4591ccadb33e83cc8,
-        type: 3}
-      propertyPath: tagPenalties.Array.data[10]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3072058347484319815, guid: da1e4978ef01e4e4591ccadb33e83cc8,
-        type: 3}
-      propertyPath: traversableTags
-      value: -1025
-      objectReference: {fileID: 0}
     - target: {fileID: 3072058347484319816, guid: da1e4978ef01e4e4591ccadb33e83cc8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2991,7 +2929,7 @@ MonoBehaviour:
   - {fileID: 723704430}
   - {fileID: 1506488495}
   _searchRate: 0.2
-  _maxSpeed: 2
+  _maxSpeed: 4
   _nextWaypointDistance: 0.2
   _rvo: {fileID: 0}
   _seeker: {fileID: 0}

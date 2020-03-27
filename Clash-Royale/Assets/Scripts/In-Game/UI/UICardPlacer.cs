@@ -12,6 +12,9 @@ namespace Ganover.InGame.UI {
         //public Action<CardID> OnCardSelected;
         //public Action<CardID> OnCardDeselected;
         //public Action<CardID> OnCardReleased;
+        [SerializeField]
+        private RectTransform healthPanelRect;
+
 
         [Header("Debug")]
         [SerializeField]
@@ -62,13 +65,17 @@ namespace Ganover.InGame.UI {
                 case LivingEntityTypes.DynamicFly:
                     break;
                 case LivingEntityTypes.DynamicGround:
-                    ObjectPooler.instance.SpawnFromPool("Ingame_Poseidon", GetNodePosition(), Quaternion.identity);
+                    GameObject goDynamic=ObjectPooler.instance.SpawnFromPool("Ingame_Poseidon", GetNodePosition(), Quaternion.identity);
+                    GetHealthBar(goDynamic.transform);
+                    goDynamic.GetComponent<MyAgent>().AddTarget(GameObject.Find("BaseBuilding").transform);
                     break;
                 case LivingEntityTypes.Static:
-                    GameObject go = ObjectPooler.instance.SpawnFromPool("Ingame_StaticBuilding", GetNodePosition(), Quaternion.identity);
-                    go.transform.GetChild(1).gameObject.SetActive(true);
-                    go.transform.GetChild(0).gameObject.SetActive(false);
-                    go.transform.GetChild(4).gameObject.SetActive(true);
+                    GameObject goStatic = ObjectPooler.instance.SpawnFromPool("Ingame_StaticBuilding", GetNodePosition(), Quaternion.identity);
+                    goStatic.transform.GetChild(1).gameObject.SetActive(true);
+                    goStatic.transform.GetChild(0).gameObject.SetActive(false);
+                    goStatic.transform.GetChild(4).gameObject.SetActive(true);
+                    GetHealthBar(goStatic.transform);
+
                     break;
             }
             
@@ -110,6 +117,15 @@ namespace Ganover.InGame.UI {
             } else {
                 SwitchCard(uiCard);
             }
+        }
+
+
+        private void GetHealthBar(Transform card)
+        {
+            GameObject healthBar = ObjectPooler.instance.SpawnFromPool("Ingame_HealthBar", Vector3.zero, Quaternion.identity);
+            healthBar.GetComponent<HealthBar>().SetHealthBarData(card, healthPanelRect);
+            healthBar.transform.SetParent(healthPanelRect, false);
+            healthBar.SetActive(true);
         }
 
     }

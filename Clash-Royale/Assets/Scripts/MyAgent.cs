@@ -133,10 +133,10 @@ public class MyAgent : MonoBehaviour {
     private void DestroyTarget() {
         Transform willRemoveTransform = null;
         for (int ii = 0; ii < _targetTransforms.Count; ii++) {
-            Debug.Log(Vector3.Distance(_targetTransforms[ii].position, _currentPath.vectorPath[_currentWaypoint]));
+
             if (/*_targetTransforms[ii].position == _currentPath.vectorPath[_currentWaypoint] || */Vector3.Distance(_targetTransforms[ii].position, _currentPath.vectorPath[_currentWaypoint])<2f) {
                 willRemoveTransform = _targetTransforms[ii];
-                Debug.Log("Destroyed");
+
                 break;
             }
         }
@@ -150,6 +150,12 @@ public class MyAgent : MonoBehaviour {
         Vector3 targetDir = target.position - transform.position;
 
         return target.position - targetDir.normalized;
+    }
+
+
+    public void AddTarget(Transform target)
+    {
+        _targetTransforms.Add(target);
     }
 
 }
