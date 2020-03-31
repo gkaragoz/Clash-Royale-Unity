@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
@@ -15,11 +16,17 @@ public class GameManager : MonoBehaviour {
 
     #endregion
 
-    public Transform[] targets; //////////////////
+    public List<Transform> movebleTargets; //////////////////
+
+
+    public List<Transform> enemyTargets;
+
 
     private void Start() {
         ObjectPooler.instance.InitializePool("Ingame_Poseidon");
         ObjectPooler.instance.InitializePool("Ingame_StaticBuilding");
         ObjectPooler.instance.InitializePool("Ingame_HealthBar");
     }
+
+
 }

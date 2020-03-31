@@ -34,6 +34,7 @@ public abstract class Character : LivingEntity {
 
         _characterPathfinder.OnPathFound += OnPathFound;
         _characterMotor.OnTargetReached += OnTargetReached;
+
     }
 
     private void OnPathFound(Path path) {
@@ -44,10 +45,6 @@ public abstract class Character : LivingEntity {
     private void OnTargetReached() {
         _characterPathfinder.StopSearch();
         _characterMotor.StopMovement();
-
-        //////////////////_characterPathfinder.RemoveTarget(CurrentTargetTransform);
-
-        _characterPathfinder.StartSearch();
     }
 
     public override void OnObjectReused() {
@@ -58,14 +55,14 @@ public abstract class Character : LivingEntity {
 
     public override void Deploy() {
         base.Deploy();
-
         this.gameObject.SetActive(true);
 
-        for (int ii = 0; ii < GameManager.instance.targets.Length; ii++) {
+        for (int ii = 0; ii < GameManager.instance.movebleTargets.Count; ii++) {
             //////////////////_characterPathfinder.AddTarget(GameManager.instance.targets[ii]);
         }
 
         _characterPathfinder.StartSearch();
+
 
         OnCharacterDeployed?.Invoke();
     }
