@@ -4,7 +4,7 @@
 
     void MoveTo(ILivingEntity target);
 
-    void AttackTo(LivingEntity entity);
+    void AttackTo(ILivingEntity entity);
 
     void Die();
 

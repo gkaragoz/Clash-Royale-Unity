@@ -16,10 +16,9 @@ public class GameManager : MonoBehaviour {
 
     #endregion
 
-    public List<Transform> movebleTargets; //////////////////
+    public List<Transform> movebleTargets; //////////////////    
+    public List<Transform> myTargetList;
 
-
-    public List<Transform> enemyTargets;
 
 
     private void Start() {

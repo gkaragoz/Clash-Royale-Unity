@@ -7,7 +7,8 @@ public class CharacterStats_SO : ScriptableObject {
 
     [SerializeField]
     private string _name = "Character";
-
+    [SerializeField]
+    private LivingEntityTypes _livingEntityType;
     [SerializeField]
     private GameObject _prefab;
 
@@ -41,6 +42,11 @@ public class CharacterStats_SO : ScriptableObject {
         set { _name = value; }
     }
 
+    public LivingEntityTypes LivingEntityType
+    {
+        get { return _livingEntityType; }
+        set { _livingEntityType = value; }
+    }
     public GameObject Prefab {
         get { return _prefab; }
         set { _prefab = value; }

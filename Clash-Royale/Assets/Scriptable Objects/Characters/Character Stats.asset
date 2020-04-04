@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2a4a2989e1caed47bc254a8e9340510, type: 3}
-  m_Name: Human_Stats
+  m_Name: Character Stats
   m_EditorClassIdentifier: 
-  _name: Poseidon
-  _livingEntityType: 2
+  _name: Character
   _prefab: {fileID: 0}
-  _currentHealth: 150
-  _maxHealth: 150
+  _currentHealth: 0
+  _maxHealth: 0
   _attackRate: 1
   _maxAttackRate: 0.25
   _attackDamage: 50

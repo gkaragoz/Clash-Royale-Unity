@@ -28,6 +28,12 @@ public class CharacterMotor : MonoBehaviour {
     [SerializeField]
     [Utils.ReadOnly]
     private bool _reachedEndOfPath = false;
+    [SerializeField]
+    [Utils.ReadOnly]
+    private Seeker _seeker = null;
+    [SerializeField]
+    [Utils.ReadOnly]
+    private CharacterPathfinder _characterPathfinder = null;
 
     public Vector2 GetCurrentVelocity() {
         return _rvo.velocity;
@@ -39,9 +45,17 @@ public class CharacterMotor : MonoBehaviour {
 
     private void Awake() {
         _rvo = GetComponent<RVOController>();
+        _characterPathfinder = GetComponent<CharacterPathfinder>();
+        _seeker = GetComponent<Seeker>();
     }
 
     private void Update() {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            _seeker.StartPath(transform.position,_characterPathfinder.GetClosestMovementPoint().position,SetPath);
+        }
+
+        Debug.Log(_currentPath+"isMoving :" + _isMoving);
         if (_currentPath == null || _isMoving == false) {
             return;
         }
@@ -77,21 +91,25 @@ public class CharacterMotor : MonoBehaviour {
 
         while (true) {
             distanceToWaypoint = Vector3.Distance(transform.position, _currentPath.vectorPath[_currentWaypoint]);
+            Debug.Log("Distan : " +distanceToWaypoint+"  nextDist : "+_nextWaypointDistance + "Way :"+_currentWaypoint);
+
+
             if (distanceToWaypoint < _nextWaypointDistance) {
                 if (_currentWaypoint + 1 < _currentPath.vectorPath.Count) {
                     _currentWaypoint++;
                 } else {
                     _reachedEndOfPath = true;
-
                     OnTargetReached?.Invoke();
                     break;
                 }
             } else {
+
                 break;
             }
         }
     }
 
+    
     public void SetPath(Path targetPath) {
         _currentWaypoint = 0;
         _reachedEndOfPath = false;

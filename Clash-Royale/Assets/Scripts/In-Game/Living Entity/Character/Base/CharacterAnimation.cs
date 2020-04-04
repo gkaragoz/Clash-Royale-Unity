@@ -8,7 +8,7 @@ public class CharacterAnimation : MonoBehaviour {
     private float _characterAngle;
     [SerializeField]
     [Utils.ReadOnly]
-    private CharacterMotor _characterMotor = null;
+    private MotorPose _characterMotor = null;
     [SerializeField]
     [Utils.ReadOnly]
     private AnimationManager _animationManager;
@@ -17,7 +17,7 @@ public class CharacterAnimation : MonoBehaviour {
     private Direction _currentDirection;
 
     private void Awake() {
-        _characterMotor = GetComponent<CharacterMotor>();
+        _characterMotor = GetComponent<MotorPose>();
         _animationManager = GetComponentInChildren<AnimationManager>();
     }
 

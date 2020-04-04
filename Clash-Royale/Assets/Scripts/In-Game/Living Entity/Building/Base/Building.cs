@@ -38,10 +38,10 @@ public abstract class Building : LivingEntity {
         Debug.Log(CLASS_NAME + this + " Deployed.");
     }
 
-    public override void AttackTo(LivingEntity entity) {
+    public override void AttackTo(ILivingEntity entity) {
         base.AttackTo(entity);
 
-        Debug.Log(CLASS_NAME + this + " AttackTo " + entity.name + " entity.");
+       // Debug.Log(CLASS_NAME + this + " AttackTo " + entity.name + " entity.");
     }
 
     public override void Die() {

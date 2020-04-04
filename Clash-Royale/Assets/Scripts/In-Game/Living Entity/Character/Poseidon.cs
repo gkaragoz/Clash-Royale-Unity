@@ -9,4 +9,10 @@ public class Poseidon : Character {
         base.Deploy();
     }
 
+
+    public override void GetDamage()
+    {
+        base.GetDamage();
+
+    }
 }

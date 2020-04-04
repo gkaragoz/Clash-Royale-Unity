@@ -13,13 +13,18 @@ public class LivingEntity : MonoBehaviour, ILivingEntity, IPooledObject {
     public virtual void MoveTo(ILivingEntity target) {
     }
 
-    public virtual void AttackTo(LivingEntity entity) {
+    public virtual void AttackTo(ILivingEntity entity) {
     }
 
     public virtual void Die() {
     }
 
     public virtual void OnObjectReused() {
+    }
+
+
+    public virtual void GetDamage()
+    {
     }
 
 }

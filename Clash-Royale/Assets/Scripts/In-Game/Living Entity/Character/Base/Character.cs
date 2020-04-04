@@ -7,6 +7,7 @@ public abstract class Character : LivingEntity {
 
     public Action OnCharacterDeployed;
     public Action OnCharacterDead;
+    public Action OnCharacterDamaged;
 
     [Header("Initializations")]
     [SerializeField]
@@ -20,11 +21,6 @@ public abstract class Character : LivingEntity {
     [Utils.ReadOnly]
     private CharacterPathfinder _characterPathfinder;
 
-    public Transform CurrentTargetTransform {
-        get {
-            return _characterPathfinder.CurrentTarget; //////////////////
-        }
-    }
 
     public override void Awake() {
         base.Awake();
@@ -42,9 +38,10 @@ public abstract class Character : LivingEntity {
         _characterMotor.StartMovement();
     }
 
+
     private void OnTargetReached() {
-        _characterPathfinder.StopSearch();
-        _characterMotor.StopMovement();
+      //  _characterPathfinder.StopSearch();
+       // _characterMotor.StopMovement();
     }
 
     public override void OnObjectReused() {
@@ -58,10 +55,9 @@ public abstract class Character : LivingEntity {
         this.gameObject.SetActive(true);
 
         for (int ii = 0; ii < GameManager.instance.movebleTargets.Count; ii++) {
-            //////////////////_characterPathfinder.AddTarget(GameManager.instance.targets[ii]);
         }
 
-        _characterPathfinder.StartSearch();
+      //  _characterPathfinder.StartSearch();
 
 
         OnCharacterDeployed?.Invoke();
@@ -72,5 +68,14 @@ public abstract class Character : LivingEntity {
 
         OnCharacterDead?.Invoke();
     }
+
+    public override void GetDamage()
+    {
+        base.GetDamage();
+
+        OnCharacterDamaged?.Invoke();
+    }
+
+
 
 }
