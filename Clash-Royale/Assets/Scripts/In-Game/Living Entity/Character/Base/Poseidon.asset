@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a4a2989e1caed47bc254a8e9340510, type: 3}
+  m_Name: Poseidon
+  m_EditorClassIdentifier: 
+  _name: Poseidon
+  _livingEntityType: 2
+  _TypesOfEnemyToAttack: 0200000003000000
+  _prefab: {fileID: 0}
+  _maxHealth: 60
+  _attackSpeed: 1
+  _attackDamage: 20
+  _attackRange: 3
+  _enemyDedectionRange: 5
+  _movementSpeed: 1
+  _deployTime: 1

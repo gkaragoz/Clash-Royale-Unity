@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class CharacterStats : MonoBehaviour {
-
+  /*  
     [Header("Initialization")]
     [SerializeField]
     private CharacterStats_SO _characterDefinition_Template = null;
@@ -131,5 +131,5 @@ public class CharacterStats : MonoBehaviour {
 
     #region Custom Methods
     #endregion
-
+    */
 }

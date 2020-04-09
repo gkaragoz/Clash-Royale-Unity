@@ -25,15 +25,7 @@ public interface IWalkable
 }
 
 
-public interface ICanAttack
-{
-    float AttackSpeed { get; set; }
-    float AttackDamage { get; set; }
-    LivingEntityTypes[] TypesOfAttackTargets  {get; set; }
-    float AttackRange { get; set; }
-    
 
-}
 
 public interface IFly
 {

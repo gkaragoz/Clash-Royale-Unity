@@ -1,30 +1,55 @@
 ﻿using UnityEngine;
 
-public class LivingEntity : MonoBehaviour, ILivingEntity, IPooledObject {
-
-    private const string CLASS_NAME = "[LIVING ENTITY]";
-
-    public virtual void Awake() {
-    }
-
-    public virtual void Deploy() {
-    }
-
-    public virtual void MoveTo(ILivingEntity target) {
-    }
-
-    public virtual void AttackTo(ILivingEntity entity) {
-    }
-
-    public virtual void Die() {
-    }
-
-    public virtual void OnObjectReused() {
-    }
+public class LivingEntity :MonoBehaviour{
+    private int Id { get; set; }
+    private LivingEntityTypes ObjectType { get; set; }
+    private float PlayerId { get; set; }
 
 
-    public virtual void GetDamage()
+    #region Increasers
+     
+    #endregion
+
+    #region Decreasers
+
+    #endregion
+
+    #region Setters
+
+    public void SetId(int value)
     {
+        Id = value;
     }
+    public void SetObjectType(LivingEntityTypes value)
+    {
+        ObjectType = value;
+    }
+    public void SetPlayerId(float value)
+    {
+        PlayerId = value;
+    }
+
+    #endregion
+
+    #region Reporters
+
+    public int GetId()
+    {
+        return Id;
+    }
+
+    public LivingEntityTypes GetObjectType()
+    {
+        return ObjectType;
+    }
+    public float GetPlayerId()
+    {
+        return PlayerId;
+    }
+    #endregion
+
+    #region Custom Methods
+    #endregion
+
 
 }

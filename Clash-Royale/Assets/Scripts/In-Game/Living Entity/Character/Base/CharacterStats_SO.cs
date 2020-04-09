@@ -8,25 +8,25 @@ public class CharacterStats_SO : ScriptableObject {
     [SerializeField]
     private string _name = "Character";
     [SerializeField]
-    private LivingEntityTypes _livingEntityType;
+    private LivingEntityTypes _livingEntityType;  
+    [SerializeField]
+    private LivingEntityTypes[] _TypesOfEnemyToAttack;
     [SerializeField]
     private GameObject _prefab;
 
     // Health
     [SerializeField]
-    private float _currentHealth;
-    [SerializeField]
     private float _maxHealth;
 
     // Attack
     [SerializeField]
-    private float _attackRate = 1f;
-    [SerializeField]
-    private float _maxAttackRate = 0.25f;
+    private float _attackSpeed = 1f;
     [SerializeField]
     private float _attackDamage = 50f;
     [SerializeField]
-    private float _minAttackDamage = 1f;
+    private float _attackRange = 1f;
+    [SerializeField]
+    private float _enemyDedectionRange = 4f;
 
     // Movement
     [SerializeField]
@@ -52,32 +52,35 @@ public class CharacterStats_SO : ScriptableObject {
         set { _prefab = value; }
     }
 
-    public float CurrentHealth {
-        get { return _currentHealth; }
-        set { _currentHealth = value; }
+    public LivingEntityTypes[] TypesOfEnemeyToAttack
+    {
+        get { return _TypesOfEnemyToAttack; }
+        set {  _TypesOfEnemyToAttack = value; }
     }
 
+   
     public float MaxHealth {
         get { return _maxHealth; }
         set { _maxHealth = value; }
     }
 
-    public float AttackRate {
-        get { return _attackRate; }
-        set { _attackRate = value; }
+    public float AttackRange {
+        get { return _attackRange; }
+        set { _attackRange = value; }
     }
 
-    public float MaxAttackRate {
-        get { return _maxAttackRate; }
+    public float AttackSpeed
+    {
+        get { return _attackSpeed; }
+        set { _attackSpeed = value; }
     }
-
     public float AttackDamage {
         get { return _attackDamage; }
         set { _attackDamage = value; }
     }
 
-    public float MinAttackDamage {
-        get { return _minAttackDamage; }
+    public float EnemyDedectionRange {
+        get { return _enemyDedectionRange; }
     }
 
     public float DeployTime {

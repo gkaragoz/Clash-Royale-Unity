@@ -1,79 +1,135 @@
 ﻿using Pathfinding;
 using System;
+using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterStats), typeof(CharacterMotor), typeof(CharacterPathfinder))]
-public abstract class Character : LivingEntity {
+//[RequireComponent(typeof(CharacterMotor), typeof(Seeker), typeof(CharacterPathfinder))]
+public class Character : LivingEntity, ICanDamageable, ICanMove, ICanAttack, IPooledObject
+{
+    HealthBar healthBar;
+    bool haveHealthBar;
+    bool canAttack;
+    public CharacterPathfinder _characterPathfinder;
+    public CharacterMotor _characterMotor;
+    public CharacterStats_SO _characterStats;
 
-    public Action OnCharacterDeployed;
-    public Action OnCharacterDead;
-    public Action OnCharacterDamaged;
-
-    [Header("Initializations")]
-    [SerializeField]
-    private CharacterStats _characterStats;
-
-    [Header("Debug")]
     [SerializeField]
     [Utils.ReadOnly]
-    private CharacterMotor _characterMotor;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private CharacterPathfinder _characterPathfinder;
+    private string _characterName;
+    public float Health { get; set; }
+
+    private float _maxHealth;
+    public float MovementSpeed { get; set; }
+
+    public float AttackSpeed { get; set; }
+    public float AttackDamage { get; set; }
+    public LivingEntityTypes[] TypesOfEnemeyToAttack { get; set; }
+    public float AttackRange { get; set; }
 
 
-    public override void Awake() {
-        base.Awake();
 
+    #region Initialization 
+    private void Awake()
+    {
         _characterMotor = GetComponent<CharacterMotor>();
         _characterPathfinder = GetComponent<CharacterPathfinder>();
+        SetPlayerId(_characterStats.DeployTime);
+        SetObjectType(_characterStats.LivingEntityType);
+        Health = _characterStats.MaxHealth;
+        MovementSpeed = _characterStats.MovementSpeed;
+        AttackDamage = _characterStats.AttackDamage;
+        AttackSpeed = _characterStats.AttackSpeed;
+        AttackRange = _characterStats.AttackRange;
+        TypesOfEnemeyToAttack = _characterStats.TypesOfEnemeyToAttack;
+        _characterName = _characterStats.name;
+        _maxHealth = Health;
+    }
 
-        _characterPathfinder.OnPathFound += OnPathFound;
-        _characterMotor.OnTargetReached += OnTargetReached;
+
+
+    #endregion
+
+    public void Deploy()
+    {
+        Debug.Log(_characterName + " is Deployed!");
 
     }
 
-    private void OnPathFound(Path path) {
-        _characterMotor.SetPath(path);
-        _characterMotor.StartMovement();
+    public void Die()
+    {
+        TargetManager.instance.RemoveTarget(this);
+        Debug.Log(name + " is Died");
+        transform.gameObject.SetActive(false);
+        healthBar.gameObject.SetActive(false);
     }
 
-
-    private void OnTargetReached() {
-      //  _characterPathfinder.StopSearch();
-       // _characterMotor.StopMovement();
+    public void OnObjectReused()
+    {
     }
 
-    public override void OnObjectReused() {
-        base.OnObjectReused();
-
-        Deploy();
+    public void TakeDamage(float damageAmount)
+    {
+        Health -= damageAmount;
+        if (Health <= 0)
+        {
+            Die();
+        }
+        GetHealthBar();
     }
 
-    public override void Deploy() {
-        base.Deploy();
-        this.gameObject.SetActive(true);
+    void GetHealthBar()
+    {
+        if (!haveHealthBar)
+        {
+            healthBar = ObjectPooler.instance.SpawnFromPool("Ingame_HealthBar", transform.position, Quaternion.identity).GetComponent<HealthBar>();
 
-        for (int ii = 0; ii < GameManager.instance.movebleTargets.Count; ii++) {
+            healthBar.SetHealthBarData(transform, GameObject.Find("Canvas").GetComponent<RectTransform>());
+            healthBar.gameObject.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
+            healthBar.OnHealthChanged(Health / _characterStats.MaxHealth);
+            healthBar.gameObject.SetActive(true);
+            haveHealthBar = true;
+        }
+        else
+        {
+            healthBar.OnHealthChanged(Health / _characterStats.MaxHealth);
+
         }
 
-      //  _characterPathfinder.StartSearch();
 
-
-        OnCharacterDeployed?.Invoke();
     }
 
-    public override void Die() {
-        base.Die();
-
-        OnCharacterDead?.Invoke();
-    }
-
-    public override void GetDamage()
+    public void TakeHeal(float healAmount)
     {
-        base.GetDamage();
+        Health += healAmount;
+        if (Health >= _maxHealth)
+        {
+            Health = _maxHealth;
+        }
 
-        OnCharacterDamaged?.Invoke();
+    }
+
+    public virtual void AttackTo(ICanDamageable target, float damage)
+    {
+        target.TakeDamage(damage);
+    }
+
+
+    public void CalculatePointsAroundObject(AIBase[] agents, Transform targetTransform, float positionRadius)
+    {
+        float subAngle = 360f / agents.Length;
+        float currentAngle = 0;
+
+        Vector3 currentPos = targetTransform.position;
+
+        for (int i = 0; i < agents.Length; i++)
+        {
+            agents[i].destination = new Vector3(
+                Mathf.Sin(Mathf.Deg2Rad * currentAngle) * positionRadius + currentPos.x,
+                currentPos.y,
+                Mathf.Cos(Mathf.Deg2Rad * currentAngle) * positionRadius + currentPos.z);
+
+            currentAngle += subAngle;
+        }
     }
 
 

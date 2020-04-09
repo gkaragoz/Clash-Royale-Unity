@@ -30,14 +30,14 @@ public class HealthBar : MonoBehaviour {
 
         Vector2 WorldObject_ScreenPosition = new Vector2(
         ((ViewportPosition.x * _targetCanvas.sizeDelta.x) - (_targetCanvas.sizeDelta.x * 0.5f)),
-        ((ViewportPosition.y * _targetCanvas.sizeDelta.y) * 1.1f - (_targetCanvas.sizeDelta.y * 0.5f)));
+        ((ViewportPosition.y * _targetCanvas.sizeDelta.y) - (_targetCanvas.sizeDelta.y*.42f)));
         _healthBar.anchoredPosition = WorldObject_ScreenPosition;
     }
 
     public void SetHealthBarData(Transform targetTransform, RectTransform targetCanvas) {
         _targetTransform = targetTransform;
         _targetCanvas = targetCanvas;
-
+        transform.SetParent(targetCanvas);
         Show();
         
         RepositionHealthBar();

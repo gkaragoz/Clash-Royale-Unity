@@ -101,7 +101,7 @@ RectTransform:
   m_GameObject: {fileID: 3444665863447299043}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.21101542, y: 0.21101542, z: 0.21101542}
   m_Children:
   - {fileID: 7180803062200394065}
   - {fileID: 2531327951093952420}
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.5
+  m_FillAmount: 0.33
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

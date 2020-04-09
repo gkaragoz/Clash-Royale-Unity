@@ -19,7 +19,7 @@ public class Pose : StandardChars,ICanAttack
 
     public float AttackSpeed { get ; set; }
     public float AttackDamage { get ; set; }
-    public LivingEntityTypes[] TypesOfAttackTargets { get ; set ; }
+    public LivingEntityTypes[] TypesOfEnemeyToAttack { get ; set ; }
     public float AttackRange { get; set; }
 
     void Awake()
@@ -35,16 +35,16 @@ public class Pose : StandardChars,ICanAttack
 
         Health = 100;
         CharacterType = LivingEntityTypes.DynamicGround;
-        TypesOfAttackTargets = new LivingEntityTypes[]{LivingEntityTypes.DynamicGround, LivingEntityTypes.Static };
+        TypesOfEnemeyToAttack = new LivingEntityTypes[]{LivingEntityTypes.DynamicGround, LivingEntityTypes.Static };
         AttackRange = 5f;
         AttackDamage = 10f;
-        AttackSpeed = 2f;
+        AttackSpeed = .5f;
     }
 
 
     private void Update()
     {
-        if (_characterPathfinder.currentEnemy != null)//Hedefimde enemy var ise
+        if (_characterPathfinder.currentEnemy != null)//Görüş alanımda enemy var ise
         {
             MoveAndAttackToEnemy();
 
@@ -85,13 +85,21 @@ public class Pose : StandardChars,ICanAttack
     IEnumerator AttackToEnemy(StandardChars target)
     {
         while (canAttack)
-        {           
-            yield return new WaitForSeconds(AttackSpeed);
+        {
+            //Wait before attack if youy want  yield return new WaitForSeconds(AttackSpeed);
+
             target.TakeDamage(AttackDamage);
+            yield return new WaitForSeconds(AttackSpeed);
   
         }
     }
-    
-    
 
+    public void AttackTo(ICanDamageable target)
+    {
+        
+    }
+
+    public void AttackTo(ICanDamageable target, float damage)
+    {
+    }
 }

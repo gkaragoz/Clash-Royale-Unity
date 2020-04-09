@@ -7,63 +7,86 @@ using System.Collections;
 
 public class MotorPose : MonoBehaviour
 {
-    bool isReached;
-
-    Vector3 velocity;
-
-    public bool _canMove = false;
-
-    public bool _canDedectEnemy = false;
-
-    public Transform targetPosition;
-
-    public CharacterPathfinder characterPathfinder;
-
-    private Seeker seeker;
-
-    public Path path;
+    [Header("Initializations")]
 
     public float speed = 2;
 
     public float nextWaypointDistance = 3;
 
+
+
+
+    [Header("Debug")]
+    [SerializeField]
+    [Utils.ReadOnly]
     private int currentWaypoint = 0;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    RVOController _rvo;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    private bool isReached;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    private Vector3 velocity;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    public bool _canMove = false;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    public bool _canDedectEnemy = false;
+    // public Transform targetPosition;
+    [SerializeField]
+    [Utils.ReadOnly]
+    public CharacterPathfinder characterPathfinder;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    private Seeker seeker;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    public Path path;
+
+
+
 
     public bool reachedEndOfPath;
 
-    public void Start()
+    private void Start()
     {
         seeker = GetComponent<Seeker>();
         characterPathfinder = GetComponent<CharacterPathfinder>();
+        _rvo = GetComponent<RVOController>();
     }
 
     public void OnPathComplete(Path p)
     {
-        //Debug.Log("A path was calculated. Did it fail with an error? " + p.error);
 
-        if (!p.error)//P errrorsa return edilecek
+        if (p.error)//P errrorsa return edilecek
         {
-            path = p;
-            currentWaypoint = 0;
-
-            _canMove = true;
-            reachedEndOfPath = false;
-        }
-    }
-
-    public void Update()
-    {    
-
-        if (path == null)
-        {
+            StopMovement();
             return;
         }
+        path = p;
+        currentWaypoint = 0;
+
+        _canMove = true;
+        reachedEndOfPath = false;
+    }
 
 
-        
+    private void ProcessNextWaypoint()
+    {
+
         while (_canMove)
         {
-           float distanceToWaypoint = Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]);
+            float distanceToWaypoint = Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]);
             if (distanceToWaypoint < nextWaypointDistance)
             {
                 if (currentWaypoint + 1 < path.vectorPath.Count)
@@ -82,23 +105,41 @@ public class MotorPose : MonoBehaviour
                 break;
             }
         }
-        Vector3 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
-        velocity = dir * speed ;
-        
-        if (_canMove)
-        {
-        transform.position += velocity * Time.deltaTime;
-            isReached = false;
-        }
-
-
     }
-   public Vector2 GetCurrentVelocity()
+    private void ProcessMovement()
+    {
+        transform.position += GetCalculatedRVOPosition();
+    }
+
+    private Vector3 GetCalculatedRVOPosition()
+    {
+        Vector3 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
+        velocity = dir * speed;
+        _rvo.SetTarget(path.vectorPath[currentWaypoint], speed, speed * 1.2f);
+        return _rvo.CalculateMovementDelta(transform.position, Time.deltaTime);
+    }
+       
+    private void Update()
+    {
+        if (path == null)
+        {
+            return;
+        }
+        ProcessNextWaypoint();
+        ProcessMovement();        
+    }
+
+
+
+
+
+
+    public Vector2 GetCurrentVelocity()
     {
         return velocity.normalized;
     }
 
-   public bool HasReachedToDestination()
+    public bool HasReachedToDestination()
     {
         return isReached;
     }
@@ -107,7 +148,7 @@ public class MotorPose : MonoBehaviour
     {
         while (_canDedectEnemy)
         {
-            seeker.StartPath(transform.position, characterPathfinder.GetClosestTargetPosition(), OnPathComplete);
+           // seeker.StartPath(transform.position, GetClosestTargetPosition(), OnPathComplete);
             yield return new WaitForSeconds(.2f);
 
         }
@@ -117,6 +158,7 @@ public class MotorPose : MonoBehaviour
     {
         _canDedectEnemy = true;
         StartCoroutine(DedectEnemy());
+        isReached = false;
     }
 
     public void StopMovement()

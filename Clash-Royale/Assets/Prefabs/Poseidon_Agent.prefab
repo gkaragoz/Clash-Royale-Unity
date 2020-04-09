@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3072058347484319816}
-  - component: {fileID: 1390699588680983811}
   - component: {fileID: 4557651872396786458}
   - component: {fileID: 5098149612855189591}
   - component: {fileID: 8249096035124070984}
@@ -39,21 +38,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1390699588680983811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3072058347484319810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97a351d8352848b4b85e642962eb15e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _characterStats: {fileID: 0}
-  _characterMotor: {fileID: 0}
-  _characterPathfinder: {fileID: 0}
 --- !u!114 &4557651872396786458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,14 +50,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc6163a08dc9694ba23e12d1fe4cb71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _searchRate: 0.2
-  _isSearching: 0
-  _isSearchingEnemy: 1
+  currentEnemy: {fileID: 0}
+  isEnemyInRange: 0
   _targetDedectionRadius: 7
-  _enemyTargets: []
-  _targetTransforms: []
   _currentTarget: {fileID: 0}
-  _seeker: {fileID: 0}
   _gameManager: {fileID: 0}
 --- !u!114 &5098149612855189591
 MonoBehaviour:
@@ -87,12 +67,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5831377e48d31cf4593e122281b52ae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 2
-  _nextWaypointDistance: 0.2
-  _isMoving: 1
+  speed: 2
+  nextWaypointDistance: 3
+  currentWaypoint: 0
   _rvo: {fileID: 0}
-  _currentWaypoint: 0
-  _reachedEndOfPath: 0
+  isReached: 0
+  velocity: {x: 0, y: 0, z: 0}
+  _canMove: 0
+  _canDedectEnemy: 0
+  characterPathfinder: {fileID: 0}
+  seeker: {fileID: 0}
+  reachedEndOfPath: 0
 --- !u!114 &8249096035124070984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,8 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9ab2d3af0e01049b92ba7fb8a7102c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterDefinition_Template: {fileID: 0}
-  _character: {fileID: 0}
 --- !u!114 &3072058347484319815
 MonoBehaviour:
   m_ObjectHideFlags: 0

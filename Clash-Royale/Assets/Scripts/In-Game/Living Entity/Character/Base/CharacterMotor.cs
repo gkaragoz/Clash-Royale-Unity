@@ -1,128 +1,286 @@
-﻿using Pathfinding;
+﻿using UnityEngine;
+// Note this line, if it is left out, the script won't know that the class 'Path' exists and it will throw compiler errors
+// This line should always be present at the top of scripts which use pathfinding
+using Pathfinding;
 using Pathfinding.RVO;
-using System;
-using UnityEngine;
+using System.Collections;
 
-public class CharacterMotor : MonoBehaviour {
-
-    public Action OnTargetReached;
-
+public class CharacterMotor : MonoBehaviour
+{
     [Header("Initializations")]
-    [SerializeField]
-    private float _maxSpeed = 2;    // PUT THIS VALUE INSIDE CHARACTER STATS. NOT NOW BECAUSE WE DIDN'T COMPLETE THE MOVEMENT AND ATTACK SYSTEM. THIS IS NEEDED FOR QUICKLY CHANGED VALUE.
-    [SerializeField]
-    private float _nextWaypointDistance = 0.2f;
-    [SerializeField]
-    private bool _isMoving = true;
+
+    public float speed = 2;
+
+    public float nextWaypointDistance = 3;
+
+    private float _myPlayerId;
+
+
 
     [Header("Debug")]
     [SerializeField]
     [Utils.ReadOnly]
-    private RVOController _rvo;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private Path _currentPath = null;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private int _currentWaypoint = 0;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private bool _reachedEndOfPath = false;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private Seeker _seeker = null;
-    [SerializeField]
-    [Utils.ReadOnly]
-    private CharacterPathfinder _characterPathfinder = null;
+    private int currentWaypoint = 0;
 
-    public Vector2 GetCurrentVelocity() {
-        return _rvo.velocity;
-    }
+    [SerializeField]
+    [Utils.ReadOnly]
+    RVOController _rvo;
 
-    public bool HasReachedToDestination() {
-        return _reachedEndOfPath;
-    }
+    [SerializeField]
+    [Utils.ReadOnly]
+    private bool isReached;
 
-    private void Awake() {
+    [SerializeField]
+    [Utils.ReadOnly]
+    private Vector3 velocity;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    public bool _canMove = false;
+
+
+    bool canAttack;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    Transform _currentEnemy;
+    [SerializeField]
+    [Utils.ReadOnly]
+    public bool _canDedectEnemy = false;
+    // public Transform targetPosition;
+    [SerializeField]
+    [Utils.ReadOnly]
+    public CharacterPathfinder characterPathfinder;
+    [SerializeField]
+    [Utils.ReadOnly]
+    public Character _character;
+    [SerializeField]
+    [Utils.ReadOnly]
+    private Seeker seeker;
+
+    [SerializeField]
+    [Utils.ReadOnly]
+    public Path path;
+
+
+
+    private void Start()
+    {
+        _myPlayerId = GetComponent<LivingEntity>().GetPlayerId();
+        seeker = GetComponent<Seeker>();
+        _character = GetComponent<Character>();
+        characterPathfinder = GetComponent<CharacterPathfinder>();
         _rvo = GetComponent<RVOController>();
-        _characterPathfinder = GetComponent<CharacterPathfinder>();
-        _seeker = GetComponent<Seeker>();
+        isReached = true;
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.S))
+    public void OnPathComplete(Path p)
+    {
+        if (p.error)
         {
-            _seeker.StartPath(transform.position,_characterPathfinder.GetClosestMovementPoint().position,SetPath);
-        }
-
-        Debug.Log(_currentPath+"isMoving :" + _isMoving);
-        if (_currentPath == null || _isMoving == false) {
+            StopMovement();
             return;
         }
+        path = p;
+        currentWaypoint = 0;
+        _canMove = true;
+        isReached = false;
+
+    }
+
+
+    private void ProcessNextWaypoint()
+    {
+        while (_canMove)
+        {
+            float distanceToWaypoint = Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]);
+            if (distanceToWaypoint < nextWaypointDistance)
+            {
+                if (currentWaypoint + 1 < path.vectorPath.Count)
+                {
+                    currentWaypoint++;
+                }
+                else
+                {
+                    isReached = true;
+                    _canMove = false;
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    private void ProcessMovement()
+    {
+        transform.position += GetCalculatedRVOPosition();
+    }
+
+    private Vector3 GetCalculatedRVOPosition()
+    {
+        Vector3 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
+        velocity = dir * speed;
+        _rvo.SetTarget(path.vectorPath[currentWaypoint], speed, speed * 1.2f);
+        return _rvo.CalculateMovementDelta(transform.position, Time.deltaTime);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartMovement();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            StopMovement();
+        }
+        if (_currentEnemy!=null)
+        {
+            MoveAndAttackToEnemy();
+        }
+        else
+        {
+            StartMovement();
+        }
+
+        if (path == null)
+        {
+            return;
+        }
+
+
+
+
 
         ProcessNextWaypoint();
         ProcessMovement();
     }
 
-    /// <summary>
-    /// Finally update my position depends on what RVO decided to.
-    /// </summary>
-    private void ProcessMovement() {
-        transform.position += GetCalculatedRVOPosition();
+
+    public Vector2 GetCurrentVelocity()
+    {
+        return velocity.normalized;
     }
 
-    /// <summary>
-    /// Works via our current node point and next node point that calculates which direction that we have atm.
-    /// Then, set our RVO
-    /// </summary>
-    /// <returns></returns>
-    private Vector3 GetCalculatedRVOPosition() {
-        _rvo.SetTarget(_currentPath.vectorPath[_currentWaypoint], _maxSpeed, _maxSpeed * 1.2f);
-        return _rvo.CalculateMovementDelta(transform.position, Time.deltaTime);
+    public bool HasReachedToDestination()
+    {
+        return isReached;
     }
 
-    /// <summary>
-    /// Check next waypoint while moving along the current path. <see cref="_currentPath"/>
-    /// If we got the last position of the path, than invoke <see cref="OnTargetReached"/>
-    /// </summary>
-    private void ProcessNextWaypoint() {
-        _reachedEndOfPath = false;
-        float distanceToWaypoint;
+    IEnumerator DedectEnemy()
+    {
+        Vector3 pos;
+        while (_canDedectEnemy)
+        {
+            //
+            _currentEnemy = characterPathfinder.GetEnemyInRange();
 
-        while (true) {
-            distanceToWaypoint = Vector3.Distance(transform.position, _currentPath.vectorPath[_currentWaypoint]);
-            Debug.Log("Distan : " +distanceToWaypoint+"  nextDist : "+_nextWaypointDistance + "Way :"+_currentWaypoint);
+            if (_currentEnemy == null)
+            {
+                pos=characterPathfinder.GetClosestMovementPoint().position + Vector3.up * .9f * _myPlayerId;
+                seeker.StartPath(transform.position,pos, OnPathComplete);
+
+            }
+            else
+            {
+
+                pos=characterPathfinder.GetEnemyInRange().position;            
+                seeker.StartPath(transform.position, pos, OnPathComplete);
+            }
+
+            yield return new WaitForSeconds(.1f);
+
+        }
+    }
+
+    public void StartMovement()
+    {
+        if (_canDedectEnemy==false)
+        {
+            _canDedectEnemy = true;
+             StartCoroutine(DedectEnemy());
+        }
+    }
+
+    public void StopMovement()
+    {
+        _canMove = false;
+        _canDedectEnemy = false;
+        isReached = true;
+    }
+           
 
 
-            if (distanceToWaypoint < _nextWaypointDistance) {
-                if (_currentWaypoint + 1 < _currentPath.vectorPath.Count) {
-                    _currentWaypoint++;
-                } else {
-                    _reachedEndOfPath = true;
-                    OnTargetReached?.Invoke();
-                    break;
-                }
-            } else {
+    public Vector3 GetClosestTargetPosition()
+    {
+        _currentEnemy = characterPathfinder.GetEnemyInRange();
 
-                break;
+        if (_currentEnemy == null)
+        {
+            return (characterPathfinder.GetClosestMovementPoint().position + Vector3.up * .9f * _myPlayerId);
+
+        }
+        else
+        {
+            return characterPathfinder.GetEnemyInRange().position;
+        }
+    }
+
+
+    public void MoveAndAttackToEnemy()
+    {
+        if (Vector3.Distance(transform.position, _currentEnemy.position) < _character.AttackRange)
+        {
+           StartAttack(_currentEnemy.GetComponent<LivingEntity>());
+           StopMovement();                        
+        }
+        else
+        {
+           canAttack = false;
+            _currentEnemy = null;
+           StartMovement();
+        }
+
+    }
+
+
+
+
+    public void StartAttack(LivingEntity target)
+    {
+        if (canAttack == false)
+        {
+            canAttack = true;
+            StartCoroutine(AttackToEnemy(target.GetComponent<ICanDamageable>()));
+        }
+        else
+        {
+            if (!target.gameObject.activeSelf)
+            {
+                canAttack = false;
+                _currentEnemy = null;
             }
         }
     }
 
+    IEnumerator AttackToEnemy(ICanDamageable target)
+    {
+        while (canAttack)
+        {
+            yield return new WaitForSeconds(_character.AttackSpeed);
+            if (target != null)
+            {
+                target.TakeDamage(_character.AttackDamage);
+            }
+           
+        }
     
-    public void SetPath(Path targetPath) {
-        _currentWaypoint = 0;
-        _reachedEndOfPath = false;
-
-        _currentPath = targetPath;
     }
 
-    public void StartMovement() {
-        _isMoving = true;
-    }
 
-    public void StopMovement() {
-        _isMoving = false;
-    }
+
+
 
 }
