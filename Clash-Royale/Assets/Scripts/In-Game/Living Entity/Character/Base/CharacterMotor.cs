@@ -9,7 +9,7 @@ public class CharacterMotor : MonoBehaviour
 {
     [Header("Initializations")]
 
-    public float speed = 2;
+    public float speed = 2f;
 
     public float nextWaypointDistance = 3;
 
@@ -72,6 +72,7 @@ public class CharacterMotor : MonoBehaviour
         characterPathfinder = GetComponent<CharacterPathfinder>();
         _rvo = GetComponent<RVOController>();
         isReached = true;
+        speed = Random.Range(0.5f,2f);
     }
 
     public void OnPathComplete(Path p)
@@ -128,14 +129,7 @@ public class CharacterMotor : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartMovement();
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            StopMovement();
-        }
+     
         if (_currentEnemy!=null)
         {
             MoveAndAttackToEnemy();
@@ -179,7 +173,7 @@ public class CharacterMotor : MonoBehaviour
 
             if (_currentEnemy == null)
             {
-                pos=characterPathfinder.GetClosestMovementPoint().position + Vector3.up * .9f * _myPlayerId;
+                pos=characterPathfinder.GetClosestMovementPoint().position + Vector3.up * .7f * _myPlayerId;
                 seeker.StartPath(transform.position,pos, OnPathComplete);
 
             }

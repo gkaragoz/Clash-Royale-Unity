@@ -15,14 +15,25 @@ public class HealthBar : MonoBehaviour {
     private Transform _targetTransform;
     [SerializeField]
     [Utils.ReadOnly]
+    private ICanDamageable _targetDamageble;
+    [SerializeField]
+    [Utils.ReadOnly]
     private RectTransform _targetCanvas;
 
     private void Awake() {
         _healthBar = GetComponent<RectTransform>();
+        _targetCanvas = GameObject.Find("Canvas").GetComponent<RectTransform>();
     }
 
     private void Update() {
+        if (_targetTransform.gameObject.activeSelf)
+        {
         RepositionHealthBar();
+        }
+        else
+        {
+            Hide();
+        }
     }
 
     private void RepositionHealthBar() {
@@ -32,12 +43,12 @@ public class HealthBar : MonoBehaviour {
         ((ViewportPosition.x * _targetCanvas.sizeDelta.x) - (_targetCanvas.sizeDelta.x * 0.5f)),
         ((ViewportPosition.y * _targetCanvas.sizeDelta.y) - (_targetCanvas.sizeDelta.y*.42f)));
         _healthBar.anchoredPosition = WorldObject_ScreenPosition;
+        OnHealthChanged(_targetDamageble.Health/_targetDamageble.MaxHealth);
     }
 
-    public void SetHealthBarData(Transform targetTransform, RectTransform targetCanvas) {
+    public void SetHealthBarData(Transform targetTransform) {
         _targetTransform = targetTransform;
-        _targetCanvas = targetCanvas;
-        transform.SetParent(targetCanvas);
+        _targetDamageble = targetTransform.GetComponent<ICanDamageable>();
         Show();
         
         RepositionHealthBar();

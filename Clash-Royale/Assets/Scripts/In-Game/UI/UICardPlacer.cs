@@ -63,12 +63,10 @@ namespace Ganover.InGame.UI {
                     break;
                 case LivingEntityTypes.DynamicGround:
                     GameObject goDynamic=ObjectPooler.instance.SpawnFromPool("Ingame_Poseidon", GetNodePosition(), Quaternion.identity);
+                    goDynamic.SetActive(true);
                     break;
                 case LivingEntityTypes.Static:
                     GameObject goStatic = ObjectPooler.instance.SpawnFromPool("Ingame_StaticBuilding", GetNodePosition(), Quaternion.identity);
-                    goStatic.transform.GetChild(1).gameObject.SetActive(true);
-                    goStatic.transform.GetChild(0).gameObject.SetActive(false);
-                    goStatic.transform.GetChild(4).gameObject.SetActive(true);
                     break;
             }
             

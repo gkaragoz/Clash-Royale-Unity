@@ -17,8 +17,8 @@ public class Character : LivingEntity, ICanDamageable, ICanMove, ICanAttack, IPo
     [Utils.ReadOnly]
     private string _characterName;
     public float Health { get; set; }
+    public float MaxHealth { get; set; }
 
-    private float _maxHealth;
     public float MovementSpeed { get; set; }
 
     public float AttackSpeed { get; set; }
@@ -42,7 +42,7 @@ public class Character : LivingEntity, ICanDamageable, ICanMove, ICanAttack, IPo
         AttackRange = _characterStats.AttackRange;
         TypesOfEnemeyToAttack = _characterStats.TypesOfEnemeyToAttack;
         _characterName = _characterStats.name;
-        _maxHealth = Health;
+        MaxHealth = _characterStats.MaxHealth; 
     }
 
 
@@ -60,7 +60,6 @@ public class Character : LivingEntity, ICanDamageable, ICanMove, ICanAttack, IPo
         TargetManager.instance.RemoveTarget(this);
         Debug.Log(name + " is Died");
         transform.gameObject.SetActive(false);
-        healthBar.gameObject.SetActive(false);
     }
 
     public void OnObjectReused()
@@ -69,41 +68,32 @@ public class Character : LivingEntity, ICanDamageable, ICanMove, ICanAttack, IPo
 
     public void TakeDamage(float damageAmount)
     {
+        if (Health == MaxHealth)// Ask healthbar just for 1 time
+        {
+            GetHealthBar();
+
+        }
+
         Health -= damageAmount;
         if (Health <= 0)
         {
             Die();
         }
-        GetHealthBar();
+        ObjectPooler.instance.SpawnFromPool("Ingame_HealthBar", transform.position, Quaternion.identity);
     }
 
     void GetHealthBar()
     {
-        if (!haveHealthBar)
-        {
-            healthBar = ObjectPooler.instance.SpawnFromPool("Ingame_HealthBar", transform.position, Quaternion.identity).GetComponent<HealthBar>();
-
-            healthBar.SetHealthBarData(transform, GameObject.Find("Canvas").GetComponent<RectTransform>());
-            healthBar.gameObject.transform.SetParent(GameObject.Find("Canvas").GetComponent<RectTransform>());
-            healthBar.OnHealthChanged(Health / _characterStats.MaxHealth);
-            healthBar.gameObject.SetActive(true);
-            haveHealthBar = true;
-        }
-        else
-        {
-            healthBar.OnHealthChanged(Health / _characterStats.MaxHealth);
-
-        }
-
-
+        HealthBar healthBar = ObjectPooler.instance.SpawnFromPool("Ingame_HealthBar", transform.position, Quaternion.identity).GetComponent<HealthBar>();
+        healthBar.SetHealthBarData(this.transform);
     }
 
     public void TakeHeal(float healAmount)
     {
         Health += healAmount;
-        if (Health >= _maxHealth)
+        if (Health >= MaxHealth)
         {
-            Health = _maxHealth;
+            Health = MaxHealth;
         }
 
     }

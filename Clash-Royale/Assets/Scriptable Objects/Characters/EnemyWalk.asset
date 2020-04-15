@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2a4a2989e1caed47bc254a8e9340510, type: 3}
-  m_Name: Tower
+  m_Name: EnemyWalk
   m_EditorClassIdentifier: 
-  _name: Character
-  _livingEntityType: 3
-  _TypesOfEnemyToAttack: 
+  _name: EnemyWalk
+  _livingEntityType: 2
+  _TypesOfEnemyToAttack: 010000000300000002000000
   _prefab: {fileID: 0}
   _maxHealth: 100
   _attackSpeed: 1
-  _attackDamage: 50
-  _attackRange: 1
-  _enemyDedectionRange: 4
-  _movementSpeed: 5
+  _attackDamage: 30
+  _attackRange: 3
+  _enemyDedectionRange: 6
+  _movementSpeed: 0.7
   _deployTime: -1

@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2a4a2989e1caed47bc254a8e9340510, type: 3}
-  m_Name: Character Stats
+  m_Name: Tower
   m_EditorClassIdentifier: 
-  _name: Character
+  _name: Tower
+  _livingEntityType: 3
+  _TypesOfEnemyToAttack: 
   _prefab: {fileID: 0}
-  _currentHealth: 0
-  _maxHealth: 0
-  _attackRate: 1
-  _maxAttackRate: 0.25
+  _maxHealth: 500
+  _attackSpeed: 1
   _attackDamage: 50
-  _minAttackDamage: 1
-  _movementSpeed: 5
+  _attackRange: 5
+  _enemyDedectionRange: 5
+  _movementSpeed: 0
   _deployTime: 1
